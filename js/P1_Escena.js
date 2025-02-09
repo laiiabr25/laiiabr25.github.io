@@ -22,7 +22,8 @@ let renderer, scene, camera;
 /*******************
  * TO DO: Variables globales de la aplicacion
  *******************/
-let pentagono, objetos = [], angulo = 0
+let pentagono;
+let angulo = 0;
 
 // Acciones
 init();
@@ -79,7 +80,7 @@ function loadScene()
     const toruspent = new THREE.Mesh(torus, material);
 
     pentagono = new THREE.Object3D();
-    
+
     pentagono.position.y = 1.5;
     boxpent.position.x = -1;
     spherepent.position.x = -1;
