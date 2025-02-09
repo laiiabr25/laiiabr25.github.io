@@ -97,16 +97,16 @@ function loadScene()
 
 function update()
 {
-    angulo += 0.05;
+    angulo += 0.01;
     
     // Rotar cada objeto sobre sí mismo
-    cubo.rotation.y += angulo;
-    esfera.rotation.y += angulo;
-    esfera2.rotation.y += angulo;
-    cono.rotation.y += angulo;
-    torus.rotation.y += angulo;
+    cubo.rotation.y = angulo;
+    esfera.rotation.y = angulo;
+    esfera2.rotation.y = angulo;
+    cono.rotation.y = angulo;
+    torus.rotation.y = angulo;
 
-    pentagono.rotation.y += angulo;
+    pentagono.rotation.y = angulo;
 }
 
 function render()
