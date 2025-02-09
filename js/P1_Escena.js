@@ -16,7 +16,7 @@ import * as THREE from "../lib/three.module.js";
 let renderer, scene, camera;
 
 // Otras globales
-let pentagono, cubo, esfera, cilindro, cono, torus, objetoImportado;
+let pentagono, cubo, esfera, esfera2, cono, torus, objetoImportado;
 let angulo = 0;
 
 // Acciones
@@ -47,13 +47,13 @@ function loadScene()
 
     const geoCubo = new THREE.BoxGeometry(2, 2, 2);
     const geoEsfera = new THREE.SphereGeometry(1, 20, 20);
-    const geoCilindro = new THREE.CylinderGeometry(1, 1, 2, 20);
+    const geoEsfera2 = new THREE.SphereGeometry(2, 20, 20);
     const geoCono = new THREE.ConeGeometry(1, 2, 20);
     const geoTorus = new THREE.TorusGeometry(1, 0.4, 16, 100);
 
     cubo = new THREE.Mesh(geoCubo, material);
     esfera = new THREE.Mesh(geoEsfera, material);
-    cilindro = new THREE.Mesh(geoCilindro, material);
+    esfera2 = new THREE.Mesh(geoEsfera2, material);
     cono = new THREE.Mesh(geoCono, material);
     torus = new THREE.Mesh(geoTorus, material);
 
@@ -78,7 +78,7 @@ function loadScene()
     // Posicionar los objetos
     cubo.position.set(-2, 0, 0);
     esfera.position.set(2, 0, 0);
-    cilindro.position.set(0, 0, -2);
+    esfera2.position.set(0, 0, -2);
     cono.position.set(0, 0, 2);
     torus.position.set(-2, 0, -2);
 
@@ -88,7 +88,7 @@ function loadScene()
     scene.add(pentagono);
     pentagono.add(cubo);
     pentagono.add(esfera);
-    pentagono.add(cilindro);
+    pentagono.add(esfera2);
     pentagono.add(cono);
     pentagono.add(torus);
     
@@ -100,18 +100,11 @@ function update()
     angulo += 0.01;
     
     // Rotar cada objeto sobre sí mismo
-    cubo.rotation.y += 0.02;
-    esfera.rotation.y += 0.02;
-    cilindro.rotation.y += 0.02;
-    cono.rotation.y += 0.02;
-    torus.rotation.y += 0.02;
-    
-    // Rotar el conjunto pentagonal en torno al objeto importado
-    if (objetoImportado) {
-        pentagono.rotation.y += 0.01;
-        pentagono.position.x = objetoImportado.position.x;
-        pentagono.position.z = objetoImportado.position.z;
-    }
+    cubo.rotation.y += angulo;
+    esfera.rotation.y += angulo;
+    esfera2.rotation.y += angulo;
+    cono.rotation.y += angulo;
+    torus.rotation.y += angulo;
 }
 
 function render()
