@@ -10,13 +10,19 @@
  */
 
 // Modulos necesarios
+/*******************
+ * TO DO: Cargar los modulos necesarios
+ *******************/
 import * as THREE from "../lib/three.module.js";
 
 // Variables de consenso
 let renderer, scene, camera;
 
 // Otras globales
-let pentagono, cubo, esfera, esfera2, cono, torus, objetoImportado;
+/*******************
+ * TO DO: Variables globales de la aplicacion
+ *******************/
+let pentagono, cubo, esfera, cilindro, cono, torus;
 let angulo = 0;
 
 // Acciones
@@ -29,6 +35,9 @@ function init()
     // Motor de render
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    /*******************
+    * TO DO: Completar el motor de render y el canvas
+    *******************/
     document.getElementById('container').appendChild(renderer.domElement);
 
     // Escena
@@ -45,6 +54,17 @@ function loadScene()
 {
     const material = new THREE.MeshBasicMaterial({ color: 'yellow', wireframe: true });
 
+    /*******************
+    * TO DO: Construir un suelo en el plano XZ
+    *******************/
+    const suelo = new THREE.Mesh(new THREE.PlaneGeometry(10, 10, 10, 10), material);
+    suelo.rotation.x = -Math.PI / 2;
+    scene.add(suelo);
+
+    /*******************
+    * TO DO: Construir una escena con 5 figuras diferentes posicionadas
+    * en los cinco vertices de un pentagono regular alredor del origen
+    *******************/    
     const geoCubo = new THREE.BoxGeometry(2, 2, 2);
     const geoEsfera = new THREE.SphereGeometry(1, 20, 20);
     const geoCilindro = new THREE.CylinderGeometry(2, 20, 20)
@@ -57,32 +77,29 @@ function loadScene()
     cono = new THREE.Mesh(geoCono, material);
     torus = new THREE.Mesh(geoTorus, material);
 
-    // Suelo
-    const suelo = new THREE.Mesh(new THREE.PlaneGeometry(10, 10, 10, 10), material);
-    suelo.rotation.x = -Math.PI / 2;
-    scene.add(suelo);
-
-    // Importar un modelo en json
+    /*******************
+    * TO DO: Añadir a la escena un modelo importado en el centro del pentagono
+    *******************/
     const loader = new THREE.ObjectLoader();
     loader.load('models/soldado/soldado.json', 
         function(objeto){
             cubo.add(objeto);
             objeto.position.y = 1;
-            objetoImportado = objeto;
         }
     );
 
+    /*******************
+    * TO DO: Añadir a la escena unos ejes
+    *******************/
     pentagono = new THREE.Object3D();
     pentagono.position.y = 1.5;
     
-    // Posicionar los objetos
     cubo.position.set(-2, 0, 0);
     esfera.position.set(2, 0, 0);
     cilindro.position.set(0, 0, -2);
     cono.position.set(0, 0, 2);
     torus.position.set(-2, 0, -2);
 
-    // Agregar ejes de referencia
     cubo.add(new THREE.AxesHelper(1));
 
     scene.add(pentagono);
@@ -97,8 +114,11 @@ function loadScene()
 
 function update()
 {
+    /*******************
+    * TO DO: Modificar el angulo de giro de cada objeto sobre si mismo
+    * y del conjunto pentagonal sobre el objeto importado
+    *******************/
     angulo += 0.01;
-
     pentagono.rotation.y = angulo;
 }
 
