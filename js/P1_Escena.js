@@ -46,6 +46,9 @@ function init()
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1,1000);
     camera.position.set( 0.5, 2, 7 );
     camera.lookAt( new THREE.Vector3(0,1,0) );
+
+    // Ajustar tamaño al cambiar ventana
+    window.addEventListener('resize', updateAspectRatio);
 }
 
 function loadScene()
