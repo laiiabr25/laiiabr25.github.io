@@ -120,6 +120,11 @@ function update()
     *******************/
     angulo += 0.01;
     pentagono.rotation.y = angulo;
+    cubo.rotacion.y = angulo;
+    esfera.rotacion.y = angulo;
+    cilindro.rotacion.y = angulo;
+    cono.rotacion.y = angulo;
+    torus.rotation.y = angulo;
 }
 
 function render()
