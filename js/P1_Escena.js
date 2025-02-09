@@ -66,27 +66,33 @@ function loadScene()
     * TO DO: Construir una escena con 5 figuras diferentes posicionadas
     * en los cinco vertices de un pentagono regular alredor del origen
     *******************/
-    // Nodo padre para la estructura del pentágono
+    const box = new THREE.BoxGeometry(1, 1, 1);
+    const sphere = new THREE.SphereGeometry(0.5, 20, 20);
+    const cone = new THREE.ConeGeometry(0.5, 1, 20);
+    const cylinder = new THREE.CylinderGeometry(0.5, 0.5, 1, 20);
+    const torus = new THREE.TorusGeometry(0.5, 0.2, 16, 100);
+
+    const boxpent = new THREE.Mesh(box, material);
+    const spherepent = new THREE.Mesh(sphere, material);
+    const conepent = new THREE.Mesh(cone, material);
+    const cylinderpent = new THREE.Mesh(cylinder, material);
+    const toruspent = new THREE.Mesh(torus, material);
+
     pentagono = new THREE.Object3D();
+    
+    pentagono.position.y = 1.5;
+    boxpent.position.x = -1;
+    spherepent.position.x = -1;
+    conepent.position.x = -1;
+    cylinderpent.position.x = -1;
+    toruspent.position.x = -1;
+
     scene.add(pentagono);
-
-    // Cinco figuras del pentágono
-    const radio = 3;
-    const figuras = [
-        new THREE.BoxGeometry(1, 1, 1),
-        new THREE.SphereGeometry(0.5, 20, 20),
-        new THREE.ConeGeometry(0.5, 1, 20),
-        new THREE.CylinderGeometry(0.5, 0.5, 1, 20),
-        new THREE.TorusGeometry(0.5, 0.2, 16, 100)
-    ];
-
-    for (let i = 0; i < 5; i++) {
-        const angle = (i / 5) * Math.PI * 2;
-        const mesh = new THREE.Mesh(figuras[i], material);
-        mesh.position.set(radio * Math.cos(angle), 0.5, radio * Math.sin(angle));
-        pentagono.add(mesh);
-        objetos.push(mesh);
-    }
+    pentagono.add(boxpent);
+    pentagono.add(spherepent);
+    pentagono.add(conepent);
+    pentagono.add(cylinderpent);
+    pentagono.add(toruspent);
 
     /*******************
     * TO DO: Añadir a la escena un modelo importado en el centro del pentagono
