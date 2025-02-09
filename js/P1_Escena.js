@@ -67,7 +67,7 @@ function loadScene()
     *******************/    
     const geoCubo = new THREE.BoxGeometry(2, 2, 2);
     const geoEsfera = new THREE.SphereGeometry(1, 20, 20);
-    const geoCilindro = new THREE.CylinderGeometry(1, 0.1, 0.2, 0.5)
+    const geoCilindro = new THREE.CylinderGeometry(1, 1, 2, 5)
     const geoCono = new THREE.ConeGeometry(1, 2, 20);
     const geoTorus = new THREE.TorusGeometry(1, 0.4, 16, 100);
 
@@ -96,7 +96,7 @@ function loadScene()
     
     cubo.position.set(-2, 0, 0);
     esfera.position.set(2, 0, 0);
-    cilindro.position.set(0, 0, 2);
+    cilindro.position.set(0, -2, 0);
     cono.position.set(0, 0, -2);
     torus.position.set(-2, 0, -2);
 
