@@ -11,7 +11,6 @@
 
 // Modulos necesarios
 import * as THREE from "../lib/three.module.js";
-import {GLTFLoader} from "../lib/GLTFLoader.module.js";
 
 // Variables de consenso
 let renderer, scene, camera;
@@ -67,23 +66,6 @@ function loadScene()
             objeto.position.y = 1;
         }
     )
-
-    // Importar un modelo en gltf
-    const glloader = new GLTFLoader();
-
-    glloader.load( 'models/RobotExpressive.glb', function ( gltf ) {
-    //glloader.load( 'models/robota/scene.gltf', function ( gltf ) {
-        gltf.scene.position.y = 1;
-        gltf.scene.rotation.y = -Math.PI/2;
-        esfera.add( gltf.scene );
-        console.log("ROBOT");
-        console.log(gltf);
-    
-    }, undefined, function ( error ) {
-    
-        console.error( error );
-    
-    } );
 
     esferaCubo = new THREE.Object3D();
     esferaCubo.position.y = 1.5;
