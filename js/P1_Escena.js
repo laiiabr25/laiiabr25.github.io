@@ -1,10 +1,11 @@
 /**
  * Escena.js
  * 
- * Seminario AGM #1. Escena basica en three.js: 
- * Transformaciones, animacion basica y modelos importados
+ * Practica AGM #1. Escena basica en three.js
+ * Seis objetos organizados en un grafo de escena con
+ * transformaciones, animacion basica y modelos importados
  * 
- * @author <rvivo@upv.es>, 2023
+ * @author Laia Benavent Ribelles, 2025
  * 
  */
 
