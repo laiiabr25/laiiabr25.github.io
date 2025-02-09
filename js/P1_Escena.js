@@ -16,7 +16,7 @@ import * as THREE from "../lib/three.module.js";
 let renderer, scene, camera;
 
 // Otras globales
-let pentagono;
+let pentagono, cubo, esfera, cilindro, cono, torus, objetoImportado;
 let angulo = 0;
 
 // Acciones
@@ -33,11 +33,11 @@ function init()
 
     // Escena
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0.5,0.5,0.5);
+    scene.background = new THREE.Color(0.5, 0.5, 0.5);
 
     // Camara
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-    camera.position.set(0.5, 2, 7);
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0.5, 2, 10);
     camera.lookAt(new THREE.Vector3(0, 1, 0));
 }
 
@@ -51,14 +51,14 @@ function loadScene()
     const geoCono = new THREE.ConeGeometry(1, 2, 20);
     const geoTorus = new THREE.TorusGeometry(1, 0.4, 16, 100);
 
-    const cubo = new THREE.Mesh(geoCubo, material);
-    const esfera = new THREE.Mesh(geoEsfera, material);
-    const cilindro = new THREE.Mesh(geoCilindro, material);
-    const cono = new THREE.Mesh(geoCono, material);
-    const torus = new THREE.Mesh(geoTorus, material);
+    cubo = new THREE.Mesh(geoCubo, material);
+    esfera = new THREE.Mesh(geoEsfera, material);
+    cilindro = new THREE.Mesh(geoCilindro, material);
+    cono = new THREE.Mesh(geoCono, material);
+    torus = new THREE.Mesh(geoTorus, material);
 
     // Suelo
-    const suelo = new THREE.Mesh(new THREE.PlaneGeometry(10,10, 10,10), material);
+    const suelo = new THREE.Mesh(new THREE.PlaneGeometry(10, 10, 10, 10), material);
     suelo.rotation.x = -Math.PI / 2;
     scene.add(suelo);
 
@@ -68,33 +68,50 @@ function loadScene()
         function(objeto){
             cubo.add(objeto);
             objeto.position.y = 1;
+            objetoImportado = objeto;
         }
-    )
+    );
 
     pentagono = new THREE.Object3D();
     pentagono.position.y = 1.5;
     
+    // Posicionar los objetos
     cubo.position.set(-2, 0, 0);
     esfera.position.set(2, 0, 0);
     cilindro.position.set(0, 0, -2);
     cono.position.set(0, 0, 2);
     torus.position.set(-2, 0, -2);
-    
+
+    // Agregar ejes de referencia
     cubo.add(new THREE.AxesHelper(1));
 
     scene.add(pentagono);
     pentagono.add(cubo);
     pentagono.add(esfera);
+    pentagono.add(cilindro);
     pentagono.add(cono);
     pentagono.add(torus);
- 
+    
     scene.add(new THREE.AxesHelper(3));
 }
 
 function update()
 {
     angulo += 0.01;
-    pentagono.rotation.y = angulo;
+    
+    // Rotar cada objeto sobre sí mismo
+    cubo.rotation.y += 0.02;
+    esfera.rotation.y += 0.02;
+    cilindro.rotation.y += 0.02;
+    cono.rotation.y += 0.02;
+    torus.rotation.y += 0.02;
+    
+    // Rotar el conjunto pentagonal en torno al objeto importado
+    if (objetoImportado) {
+        pentagono.rotation.y += 0.01;
+        pentagono.position.x = objetoImportado.position.x;
+        pentagono.position.z = objetoImportado.position.z;
+    }
 }
 
 function render()
