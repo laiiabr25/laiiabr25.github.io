@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <title>AGM Práctica #2</title>
+        <style>
+            body{ background-color: white;margin: 0px;overflow: hidden;}
+            #info {
+	            position: absolute;
+	            bottom: 0px;
+                left: 50px;
+	            width: 30%;
+	            text-align: left;
+	            z-index: 1; 
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="container"></div>
+
+        <div id="info">
+            <h2>AGM/Práctica #2 Laia Benavent Ribelles</h2> 
+        </div>
+	    
+        <!-- Declaracion del espacio de nombres three -->
+        <script type="importmap">
+        { "imports": { "three": "./lib/three.module.js" } }
+        </script>
+
+        <script type="module" src="js/S2_EscenaAnimada.js"></script>
+
+    </body>
+</html>

@@ -22,7 +22,7 @@ let renderer, scene, camera;
 /*******************
  * TO DO: Variables globales de la aplicacion
  *******************/
-let pentagono, cubo, esfera, cilindro, cono, torus;
+let pentagono;
 let angulo = 0;
 
 // Acciones
@@ -71,11 +71,11 @@ function loadScene()
     const geoCono = new THREE.ConeGeometry(1, 2, 20);
     const geoTorus = new THREE.TorusGeometry(1, 0.4, 16, 100);
 
-    cubo = new THREE.Mesh(geoCubo, material);
-    esfera = new THREE.Mesh(geoEsfera, material);
-    cilindro = new THREE.Mesh(geoCilindro, material);
-    cono = new THREE.Mesh(geoCono, material);
-    torus = new THREE.Mesh(geoTorus, material);
+    const cubo = new THREE.Mesh(geoCubo, material);
+    const esfera = new THREE.Mesh(geoEsfera, material);
+    const cilindro = new THREE.Mesh(geoCilindro, material);
+    const cono = new THREE.Mesh(geoCono, material);
+    const torus = new THREE.Mesh(geoTorus, material);
 
     /*******************
     * TO DO: Añadir a la escena un modelo importado en el centro del pentagono

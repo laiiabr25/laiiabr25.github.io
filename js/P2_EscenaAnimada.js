@@ -5,7 +5,7 @@
  * Se trata de añadir un interfaz de usuario que permita 
  * disparar animaciones sobre los objetos de la escena con Tween
  * 
- * @author 
+ * @author Laia Benavent Ribelles, 2025
  * 
  */
 
@@ -13,6 +13,11 @@
 /*******************
  * TO DO: Cargar los modulos necesarios
  *******************/
+import * as THREE from "../lib/three.module.js"
+import {GLTFLoader} from "../lib/GLTFLoader.module.js"
+import {OrbitControls} from "../lib/OrbitControls.module.js"
+import {TWEEN} from "../lib/tween.module.min.js"
+import {GUI} from "../lib/lil-gui.module.min.js"
 
 // Variables de consenso
 let renderer, scene, camera;
