@@ -14,6 +14,7 @@
  * TO DO: Cargar los modulos necesarios
  *******************/
 import * as THREE from "../lib/three.module.js";
+import {GLTFLoader} from "../lib/GLTFLoader.module.js"
 
 // Variables de consenso
 let renderer, scene, camera;
@@ -82,9 +83,18 @@ function loadScene()
     *******************/
     const loader = new THREE.ObjectLoader();
     loader.load('models/soldado/soldado.json', 
-        function(objeto){
+        function(objeto) {
             cubo.add(objeto);
             objeto.position.y = 1;
+        }
+    );
+
+    const glloader = new GLTFLoader();
+    glloader.load('models/robota/scene.gltf',
+        function(gltf) {
+            gltf.scene.position.y = 1;
+            gltf.scene.rotation.y = -Math.PI/2;
+            esfera.add(gltf.scene);
         }
     );
 
