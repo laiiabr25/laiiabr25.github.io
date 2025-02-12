@@ -27,7 +27,7 @@ let renderer, scene, camera;
  * TO DO: Variables globales de la aplicacion
  *******************/
 let cameraControls, effectController;
-let pentagono, cubo, esfera, cilindro, cono, torus;
+let pentagono, cubo, esfera, cilindro, cono;
 let angulo = 0;
 
 // Acciones
@@ -76,13 +76,11 @@ function loadScene()
     const geoEsfera = new THREE.SphereGeometry(1, 20, 20);
     const geoCilindro = new THREE.CylinderGeometry(1, 1, 2, 20)
     const geoCono = new THREE.ConeGeometry(1, 2, 20);
-    const geoTorus = new THREE.TorusGeometry(1, 0.4, 16, 100);
 
     cubo = new THREE.Mesh(geoCubo, material);
     esfera = new THREE.Mesh(geoEsfera, material);
     cilindro = new THREE.Mesh(geoCilindro, material);
     cono = new THREE.Mesh(geoCono, material);
-    torus = new THREE.Mesh(geoTorus, material);
 
     const loader = new THREE.ObjectLoader();
     loader.load('models/soldado/soldado.json', 
@@ -110,7 +108,6 @@ function loadScene()
     esfera.position.set(2, 0, 0);
     cilindro.position.set(0, 0, -2);
     cono.position.set(0, 0, 2);
-    torus.position.set(-2, 0, -2);
 
     cubo.add(new THREE.AxesHelper(1));
 
@@ -119,7 +116,6 @@ function loadScene()
     pentagono.add(esfera);
     pentagono.add(cilindro);
     pentagono.add(cono);
-    pentagono.add(torus);
     
     scene.add(new THREE.AxesHelper(3));
 }
