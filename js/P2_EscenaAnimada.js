@@ -26,6 +26,9 @@ let renderer, scene, camera;
 /*******************
  * TO DO: Variables globales de la aplicacion
  *******************/
+let cameraControls, effectController;
+let pentagono, cubo, esfera, cilindro, cono;
+let angulo = 0;
 
 // Acciones
 init();
@@ -37,21 +40,23 @@ function init()
 {
     // Motor de render
     renderer = new THREE.WebGLRenderer();
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize(window.innerWidth, window.innerHeight);
     /*******************
     * TO DO: Completar el motor de render y el canvas
     *******************/
+    document.getElementById('container').appendChild(render.domElement);
 
     // Escena
     scene = new THREE.Scene();
+    scene.background = new THREE.Color(0.5, 0.5, 0.5);
     
     // Camara
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1,1000);
-    camera.position.set( 0.5, 2, 7 );
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    camera.position.set(0.5, 2, 7);
     /*******************
     * TO DO: Añadir manejador de camara (OrbitControls)
     *******************/
-    camera.lookAt( new THREE.Vector3(0,1,0) );
+    camera.lookAt(new THREE.Vector3(0, 1, 0));
 }
 
 function loadScene()
@@ -61,7 +66,63 @@ function loadScene()
     /*******************
     * TO DO: Misma escena que en la practica anterior
     *******************/
+    // Suelo
+    const suelo = new THREE.Mesh(new THREE.PlaneGeometry(10, 10, 10, 10), material);
+    suelo.rotation.x = -Math.PI / 2;
+    scene.add(suelo);
 
+    // Figuras
+    const geoCubo = new THREE.BoxGeometry(2, 2, 2);
+    const geoEsfera = new THREE.SphereGeometry(1, 20, 20);
+    const geoCilindro = new THREE.CylinderGeometry(1, 1, 2, 20)
+    const geoCono = new THREE.ConeGeometry(1, 2, 20);
+
+    cubo = new THREE.Mesh(geoCubo, material);
+    esfera = new THREE.Mesh(geoEsfera, material);
+    cilindro = new THREE.Mesh(geoCilindro, material);
+    cono = new THREE.Mesh(geoCono, material);
+
+    pentagono = new THREE.Object3D();
+    pentagono.position.y = 1.5;
+
+    cubo.position.set(-2, 0, 0);
+    esfera.position.set(2, 0, 0);
+    cilindro.position.set(0, 0, -2);
+    cono.position.set(0, 0, 2);
+
+    scene.add(pentagono);
+    pentagono.add(cubo);
+    pentagono.add(esfera);
+    pentagono.add(cilindro);
+    pentagono.add(cono);
+
+    // Ejes
+    cubo.add(new THREE.AxesHelper(1));
+    scene.add(new THREE.AxesHelper(3));
+
+    // Soldado y robot
+    const loader = new THREE.ObjectLoader();
+    loader.load('models/soldado/soldado.json',
+        function(objeto) {
+            const soldado = new THREE.Object3D();
+            soldado.add(objeto);
+            cubo.add(objeto);
+            soldado.position.y = 1;
+            soldado.name = 'soldado';
+        }
+    );
+
+    const glloader = new GLTFLoader();
+    glloader.load('models/robota/scene.gltf',
+        function(gltf) {
+            gltf.scene.position.y = 1;
+            gltf.scene.rotation.y = -Math.PI/2;
+            gltf.scene.name = 'robot';
+            esfera.add(gltf.scene)
+        }, undefined, function(error) {
+            console.error(error);
+        }
+    );
 }
 
 function loadGUI()
@@ -81,11 +142,13 @@ function update(delta)
     /*******************
     * TO DO: Actualizar tween
     *******************/
+    angulo += 0.01;
+    pentagono.rotation.y = angulo;
 }
 
 function render(delta)
 {
-    requestAnimationFrame( render );
+    requestAnimationFrame(render);
     update(delta);
-    renderer.render( scene, camera );
+    renderer.render(scene, camera);
 }
