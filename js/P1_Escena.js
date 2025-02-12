@@ -95,6 +95,8 @@ function loadScene()
             gltf.scene.position.y = 1;
             gltf.scene.rotation.y = -Math.PI/2;
             esfera.add(gltf.scene);
+            console.log("ROBOT");
+            console.log(gltf);
         }
     );
 
