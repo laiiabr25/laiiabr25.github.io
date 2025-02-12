@@ -16,6 +16,8 @@
 import * as THREE from "../lib/three.module.js"
 import {GLTFLoader} from "../lib/GLTFLoader.module.js"
 import {OrbitControls} from "../lib/OrbitControls.module.js"
+import {TWEEN} from "../lib/tween.module.min.js";
+import {GUI} from "../lib/lil-gui.module.min.js";
 
 // Variables de consenso
 let renderer, scene, camera;
@@ -24,8 +26,8 @@ let renderer, scene, camera;
 /*******************
  * TO DO: Variables globales de la aplicacion
  *******************/
-let cameraControls;
-let pentagono;
+let cameraControls, effectController;
+let pentagono, cubo, esfera, cilindro, cono, torus;
 let angulo = 0;
 
 // Acciones
@@ -66,49 +68,27 @@ function loadScene()
     /*******************
     * TO DO: Misma escena que en la practica anterior
     *******************/
-    // Suelo
     const suelo = new THREE.Mesh(new THREE.PlaneGeometry(10, 10, 10, 10), material);
     suelo.rotation.x = -Math.PI / 2;
     scene.add(suelo);
 
-    // Figuras
     const geoCubo = new THREE.BoxGeometry(2, 2, 2);
     const geoEsfera = new THREE.SphereGeometry(1, 20, 20);
     const geoCilindro = new THREE.CylinderGeometry(1, 1, 2, 20)
     const geoCono = new THREE.ConeGeometry(1, 2, 20);
+    const geoTorus = new THREE.TorusGeometry(1, 0.4, 16, 100);
 
-    const cubo = new THREE.Mesh(geoCubo, material);
-    const esfera = new THREE.Mesh(geoEsfera, material);
-    const cilindro = new THREE.Mesh(geoCilindro, material);
-    const cono = new THREE.Mesh(geoCono, material);
+    cubo = new THREE.Mesh(geoCubo, material);
+    esfera = new THREE.Mesh(geoEsfera, material);
+    cilindro = new THREE.Mesh(geoCilindro, material);
+    cono = new THREE.Mesh(geoCono, material);
+    torus = new THREE.Mesh(geoTorus, material);
 
-    pentagono = new THREE.Object3D();
-    pentagono.position.y = 1.5;
-
-    cubo.position.set(-2, 0, 0);
-    esfera.position.set(2, 0, 0);
-    cilindro.position.set(0, 0, -2);
-    cono.position.set(0, 0, 2);
-
-    scene.add(pentagono);
-    pentagono.add(cubo);
-    pentagono.add(esfera);
-    pentagono.add(cilindro);
-    pentagono.add(cono);
-
-    // Ejes
-    cubo.add(new THREE.AxesHelper(1));
-    scene.add(new THREE.AxesHelper(3));
-
-    // Soldado y robot
     const loader = new THREE.ObjectLoader();
-    loader.load('models/soldado/soldado.json',
+    loader.load('models/soldado/soldado.json', 
         function(objeto) {
-            const soldado = new THREE.Object3D();
-            soldado.add(objeto);
             cubo.add(objeto);
-            soldado.position.y = 1;
-            soldado.name = 'soldado';
+            objeto.position.y = 1;
         }
     );
 
@@ -117,12 +97,31 @@ function loadScene()
         function(gltf) {
             gltf.scene.position.y = 1;
             gltf.scene.rotation.y = -Math.PI/2;
-            gltf.scene.name = 'robot';
-            esfera.add(gltf.scene)
-        }, undefined, function(error) {
-            console.error(error);
+            esfera.add(gltf.scene);
+            console.log("ROBOT");
+            console.log(gltf);
         }
     );
+
+    pentagono = new THREE.Object3D();
+    pentagono.position.y = 1.5;
+    
+    cubo.position.set(-2, 0, 0);
+    esfera.position.set(2, 0, 0);
+    cilindro.position.set(0, 0, -2);
+    cono.position.set(0, 0, 2);
+    torus.position.set(-2, 0, -2);
+
+    cubo.add(new THREE.AxesHelper(1));
+
+    scene.add(pentagono);
+    pentagono.add(cubo);
+    pentagono.add(esfera);
+    pentagono.add(cilindro);
+    pentagono.add(cono);
+    pentagono.add(torus);
+    
+    scene.add(new THREE.AxesHelper(3));
 }
 
 function loadGUI()
