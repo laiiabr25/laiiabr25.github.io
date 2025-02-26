@@ -35,16 +35,21 @@ function init()
 // Crear los instrumentos e introducirlos en la escena
 function loadScene()
 {
+    // Construir el suelo
+    const suelo = new THREE.Mesh(new THREE.PlaneGeometry(10, 10, 10, 10), material);
+    suelo.rotation.x = -Math.PI/2;
+    scene.add(suelo);
+
     // Crear el nodo padre "Batería"
-    bateria = new THREE.Group();
-    scene.add(bateria);
+    bateria = new THREE.Object3D();
+    bateria.position.y = 1.5;
 
     // Crear el material para los elementos de la "Batería"
     const material = new THREE.MeshBasicMaterial({ color: 'yellow', wireframe: true });
 
     // Crear el "Bombo"
     const bomboGeometry = new THREE.CylinderGeometry(2, 2, 1, 32);
-    const bombo = new THREE.Mesh(bomboGeometry, material)
+    const bombo = new THREE.Mesh(bomboGeometry, material);
     bombo.position.set(0, 1, 0);
     bateria.add(bombo);
 
@@ -67,22 +72,8 @@ function loadScene()
     platilloSoporte.position.set(-2, 1, 0);
     bateria.add(platilloSoporte);
 
-    // Suelo
-    const suelo = new THREE.Mesh(new THREE.PlaneGeometry(10, 10, 10, 10), material);
-    suelo.rotation.x = -Math.PI/2;
-    scene.add(suelo);
-
-    // Posicionar la cámara
-    camera.position.z = 8;
-    camera.position.y = 4;
-    camera.lookAt(new THREE.Vector3(0, 1, 0));
-
-    // Ajustar el render al cmabiar el tamaño de la ventana
-    window.addEventListener('resize', () => {
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-    });
+    // Añadir los ejes
+    scene.add(new THREE.AxesHelper(3));
 }
 
 function update()
