@@ -47,7 +47,7 @@ function loadScene() {
     bateria.add(caja);
 
     tom1 = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.5, 32), material);
-    tom1.postiion.set(-1, 3, -0.5);
+    tom1.position.set(-1, 3, -0.5);
     bateria.add(tom1);
     tom2 = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.5, 32), material);
     tom1.position.set(1, 3, -0.5);
