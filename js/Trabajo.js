@@ -1,4 +1,5 @@
 import * as THREE from "../lib/three.module.js";
+import {OrbitControls} from "../lib/OrbitControls.module.js"
 
 let renderer, scene, camera;
 let bateria, bombo, caja, tom1, tom2, tomFloor, soporteH, hiHat, soporteC, crash, soporteR, ride;
@@ -41,7 +42,7 @@ function loadScene() {
     bateria = new THREE.Object3D();
     scene.add(bateria);
 
-    bombo = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 2, 32), material);
+    bombo = new THREE.Mesh(new THREE.CylinderGeometry(2, 2, 2, 32), material);
     bombo.rotation.x = Math.PI / 2;
     bombo.position.set(0, 1, 0);
     bateria.add(bombo);
