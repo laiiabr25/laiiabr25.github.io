@@ -2,6 +2,7 @@ import * as THREE from "../lib/three.module.js";
 import {OrbitControls} from "../lib/OrbitControls.module.js"
 
 let renderer, scene, camera;
+let cameraControls;
 let bateria, bombo, caja, tom1, tom2, tomFloor, soporteH, hiHat, soporteC, crash, soporteR, ride;
 let angulo = 0;
 
