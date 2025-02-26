@@ -82,7 +82,7 @@ function loadScene() {
 
 function update() {
     angulo += 0.01;
-    //bateria.rotation.y = angulo;
+    bateria.rotation.y = angulo;
 }
 
 function render() {
