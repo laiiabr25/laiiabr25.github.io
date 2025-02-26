@@ -20,6 +20,10 @@ function init() {
     camera.position.set(0.5, 2, 10);
     camera.lookAt(new THREE.Vector3(0, 1, 0));
 
+    cameraControls = new OrbitControls(camera, renderer.domElement);
+    cameraControls.target.set(0, 1, 0);
+    camera.lookAt(new THREE.Vector3(0, 1, 0));
+
     window.addEventListener('resize', () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -87,7 +91,7 @@ function loadScene() {
 
 function update() {
     angulo += 0.01;
-    bateria.rotation.y = angulo;
+    //bateria.rotation.y = angulo;
 }
 
 function render() {
