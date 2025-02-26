@@ -1,32 +1,25 @@
-// Importar Modulos necesarios
 import * as THREE from "../lib/three.module.js";
 
-// Variables globales
 let renderer, scene, camera;
-let bateria;
+let bateria, bombo, caja, tom1, tom2, soporteH, hiHat, soporteC, crash, soporteR, ride;
 let angulo = 0;
 
-// Inicialización
 init();
 loadScene();
 render();
 
 function init() {
-    // Motor de render
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('container').appendChild(renderer.domElement);
 
-    // Escena
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0.5, 0.5, 0.5);
 
-    // Cámara
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0.5, 2, 7);
+    camera.position.set(0.5, 2, 10);
     camera.lookAt(new THREE.Vector3(0, 1, 0));
 
-    // Ajustar tamaño del render al cambiar la ventana
     window.addEventListener('resize', () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -35,67 +28,61 @@ function init() {
 }
 
 function loadScene() {
-    // Crear el material para los objetos
     const material = new THREE.MeshBasicMaterial({ color: 'yellow', wireframe: true });
 
-    // Construir el suelo
     const suelo = new THREE.Mesh(new THREE.PlaneGeometry(10, 10, 10, 10), material);
     suelo.rotation.x = -Math.PI / 2;
     scene.add(suelo);
 
-    // Crear el nodo padre "Batería"
     bateria = new THREE.Object3D();
-    bateria.position.y = 0;
     scene.add(bateria);
 
-    // Crear el "Bombo"
-    const bomboGeometry = new THREE.CylinderGeometry(2, 2, 1.5, 32);
-    const bombo = new THREE.Mesh(bomboGeometry, material);
+    bombo = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 2, 32), material);
     bombo.rotation.x = Math.PI / 2;
-    bombo.position.set(0, 1.5, 0);
+    bombo.position.set(0, 1, 0);
     bateria.add(bombo);
 
-    // Crear la "Caja"
-    const cajaGeometry = new THREE.CylinderGeometry(1, 1, 0.5, 32);
-    const caja = new THREE.Mesh(cajaGeometry, material);
-    caja.position.set(0, 3, -2);
+    caja = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 0.5, 32), material);
+    caja.position.set(0, 2.5, -1.5);
     bateria.add(caja);
 
-    // Crear un "Platillo" con su soporte
-    const soporteGeometry = new THREE.CylinderGeometry(0.1, 0.1, 2.5, 16);
-    const soporte = new THREE.Mesh(soporteGeometry, material);
-    soporte.position.set(2.5, 1, -2);
-    bateria.add(soporte)
-    const platilloGeometry = new THREE.CylinderGeometry(1.5, 1.5, 0.1, 32);
-    const platillo = new THREE.Mesh(platilloGeometry, material);
-    platillo.position.set(2.5, 2.6, -2);
-    bateria.add(platillo);
-
-    // Crear los toms
-    const tom1Geometry = new THREE.CylinderGeometry(0.8, 0.8, 0.5, 32);
-    const tom1 = new THREE.Mesh(tom1Geometry, material);
-    tom1.position.set(-1, 3.5, -1);
+    tom1 = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.5, 32), material);
+    tom1.postiion.set(-1, 3, -0.5);
     bateria.add(tom1);
-    const tom2Geometry = new THREE.CylinderGeometry(0.8, 0.8, 0.5, 32);
-    const tom2 = new THREE.Mesh(tom2Geometry, material);
-    tom1.position.set(1, 3.5, -1);
-    bateria.add(tom2);
+    tom2 = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.5, 32), material);
+    tom1.position.set(1, 3, -0.5);
+    bateria.add(tom2)
 
-    // Crear el hi-hat
-    const hiHatBase = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 2, 16), material);
-    hiHatBase.position.set(-2.5, 1, -2);
-    bateria.add(hiHatBase);
-    const hiHatPlatillo = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.1, 32), material);
-    hiHatPlatillo.position.set(-2.5, 2, -2);
-    bateria.add(hiHatPlatillo);
+    soporteH = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 2, 16), material);
+    soporteH.position.set(-2.5, 1, -2);
+    bateria.add(soporteH);
+    
+    hiHat = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 0.1, 32), material);
+    hiHat.position.set(-2.5, 2, -2);
+    bateria.add(hiHat);
 
-    // Añadir ejes
+    soporteC = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 3, 16), material);
+    soporteC.position.set(2.5, 1.5, -2);
+    bateria.add(soporteC);
+    
+    crash = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 0.1, 32), material);
+    crash.position.set(2.5, 3.2, -2);
+    bateria.add(crash);
+
+    soporteR = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 3, 16), material);
+    soporteR.position.set(1, 1.5, 2);
+    bateria.add(soporteR);
+    
+    ride = new THREE.Mesh(new THREE.CylinderGeometry(1.7, 1.7, 0.1, 32), material);
+    ride.position.set(1, 3.2, 2);
+    bateria.add(ride);
+
     scene.add(new THREE.AxesHelper(3));
 }
 
 function update() {
     angulo += 0.01;
-    bateria.rotation.y = angulo;
+    //bateria.rotation.y = angulo;
 }
 
 function render() {
