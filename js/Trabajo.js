@@ -45,7 +45,7 @@ function loadScene() {
 
     // Crear el nodo padre "Batería"
     bateria = new THREE.Object3D();
-    bateria.position.y = 1.5;
+    bateria.position.y = 0;
     scene.add(bateria);
 
     // Crear el "Bombo"
