@@ -1,7 +1,7 @@
 import * as THREE from "../lib/three.module.js";
 
 let renderer, scene, camera;
-let bateria, bombo, caja, tom1, tom2, soporteH, hiHat, soporteC, crash, soporteR, ride;
+let bateria, bombo, caja, tom1, tom2, tomFloor, soporteH, hiHat, soporteC, crash, soporteR, ride;
 let angulo = 0;
 
 init();
@@ -43,38 +43,43 @@ function loadScene() {
     bateria.add(bombo);
 
     caja = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 0.5, 32), material);
-    caja.position.set(0, 2.5, -1.5);
+    caja.position.set(0, 2.2, -2);
     bateria.add(caja);
 
     tom1 = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.5, 32), material);
-    tom1.position.set(-1, 3, -0.5);
+    tom1.position.set(-1, 2.8, -0.5);
     bateria.add(tom1);
+    
     tom2 = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.5, 32), material);
-    tom1.position.set(1, 3, -0.5);
-    bateria.add(tom2)
+    tom2.position.set(1, 2.8, -0.5);
+    bateria.add(tom2);
+
+    tomFloor = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 0.7, 32), material);
+    tomFloor.position.set(-2, 1.5, -1.5);
+    bateria.add(tomFloor);
 
     soporteH = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 2, 16), material);
-    soporteH.position.set(-2.5, 1, -2);
+    soporteH.position.set(-3, 1, -1.5);
     bateria.add(soporteH);
     
     hiHat = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 0.1, 32), material);
-    hiHat.position.set(-2.5, 2, -2);
+    hiHat.position.set(-3, 2.2, -1.5);
     bateria.add(hiHat);
 
     soporteC = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 3, 16), material);
-    soporteC.position.set(2.5, 1.5, -2);
+    soporteC.position.set(3, 1.5, -1.5);
     bateria.add(soporteC);
     
     crash = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 0.1, 32), material);
-    crash.position.set(2.5, 3.2, -2);
+    crash.position.set(3, 3.2, -1.5);
     bateria.add(crash);
 
     soporteR = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 3, 16), material);
-    soporteR.position.set(1, 1.5, 2);
+    soporteR.position.set(2, 1.5, 2);
     bateria.add(soporteR);
     
     ride = new THREE.Mesh(new THREE.CylinderGeometry(1.7, 1.7, 0.1, 32), material);
-    ride.position.set(1, 3.2, 2);
+    ride.position.set(2, 3.2, 2);
     bateria.add(ride);
 
     scene.add(new THREE.AxesHelper(3));
