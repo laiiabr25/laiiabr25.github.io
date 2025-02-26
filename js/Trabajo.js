@@ -85,7 +85,7 @@ function loadScene() {
     bateria.add(tom2);
 
     // Crear el hi-hat
-    const hiHatSoporte = new THREE.Object3d();
+    const hiHatSoporte = new THREE.Object3D();
     const hiHatBase = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 2, 16), material);
     hiHatBase.position.set(0, 1, 0);
     hiHatSoporte.add(hiHatBase);
