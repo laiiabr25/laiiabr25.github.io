@@ -1,0 +1,11 @@
+Model Information:
+* title:	French Horn
+* source:	https://sketchfab.com/3d-models/french-horn-90cd992fa19a491f902595ad1b4eade9
+* author:	Bethanycrandallart (https://sketchfab.com/Bethanycrandallart)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "French Horn" (https://sketchfab.com/3d-models/french-horn-90cd992fa19a491f902595ad1b4eade9) by Bethanycrandallart (https://sketchfab.com/Bethanycrandallart) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -3,7 +3,6 @@ import {OrbitControls} from "../lib/OrbitControls.module.js"
 
 let renderer, scene, camera;
 let cameraControls;
-let bateria, bombo, caja, tom1, tom2, tomFloor, soporteH, hiHat, soporteC, crash, soporteR, ride;
 let angulo = 0;
 
 init();
@@ -25,12 +24,6 @@ function init() {
     cameraControls = new OrbitControls(camera, renderer.domElement);
     cameraControls.target.set(0, 1, 0);
     camera.lookAt(new THREE.Vector3(0, 1, 0));
-
-    window.addEventListener('resize', () => {
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-    });
 }
 
 function loadScene() {
@@ -40,7 +33,17 @@ function loadScene() {
     suelo.rotation.x = -Math.PI / 2;
     scene.add(suelo);
 
-    bateria = new THREE.Object3D();
+    const loader = new GLTFLoader();
+    loader.load('models/bateria/scene.gltf', function(gltf) {
+        const bateria = gltf.scene;
+        bateria.position.set(0, 0, 0);
+        bateria.scale.set(1, 1, 1);
+        scene.add(bateria);
+    }, undefined, function(error) {
+        console.error('Error al cargar el modelo:', error);
+    });
+
+    /*bateria = new THREE.Object3D();
     scene.add(bateria);
 
     bombo = new THREE.Mesh(new THREE.CylinderGeometry(2, 2, 2, 32), material);
@@ -86,7 +89,7 @@ function loadScene() {
     
     ride = new THREE.Mesh(new THREE.CylinderGeometry(1.7, 1.7, 0.1, 32), material);
     ride.position.set(2, 3.2, 2);
-    bateria.add(ride);
+    bateria.add(ride);*/
 
     scene.add(new THREE.AxesHelper(3));
 }

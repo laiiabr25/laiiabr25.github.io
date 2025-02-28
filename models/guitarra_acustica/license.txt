@@ -1,0 +1,11 @@
+Model Information:
+* title:	guitarra Gibson acustica
+* source:	https://sketchfab.com/3d-models/guitarra-gibson-acustica-5d33acad6f014cc28381c63f84492525
+* author:	CastroArbell (https://sketchfab.com/CastroArbell)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "guitarra Gibson acustica" (https://sketchfab.com/3d-models/guitarra-gibson-acustica-5d33acad6f014cc28381c63f84492525) by CastroArbell (https://sketchfab.com/CastroArbell) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
