@@ -77,6 +77,7 @@ function cargarClaveSol() {
         // Calcular los límites del modelo
         const box = new THREE.Box3().setFromObject(claveSol);
         const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
         // Centrar el modelo en el origen de coordenadas
         claveSol.position.sub(center);
         // Ajustar la posición en Y para que toque el suelo
