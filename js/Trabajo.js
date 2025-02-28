@@ -74,8 +74,8 @@ function cargarClaveSol() {
 
     loader.load(`models/instrumentos/clave/scene.gltf`, function(gltf) {
         claveSol = gltf.scene; // Guardar el modelo cargado
-        claveSol.position.set(0, 0, 0);
-        claveSol.scale.set(1, 1, 1);
+        claveSol.position.set(-10, -10, -10);
+        claveSol.scale.set(0.5, 0.5, 0.5);
         scene.add(claveSol);
     }, undefined, function(error) {
         console.error("Error al cargar el modelo:", error);
@@ -111,7 +111,7 @@ function cargarInstrumento(nombre) {
     loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
         instrumentoActual = gltf.scene; // Guardar el modelo cargado
         instrumentoActual.position.set(0, 0, 0);
-        instrumentoActual.scale.set(1, 1, 1);
+        instrumentoActual.scale.set(0.5, 0.5, 0.5);
         scene.add(instrumentoActual);
         instrumentoSeleccionado = nombre; // Guardar el nombre del instrumento cargado
     }, undefined, function(error) {
