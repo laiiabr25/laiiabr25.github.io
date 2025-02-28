@@ -122,11 +122,6 @@ function cargarInstrumento(nombre) {
 // Función de actualización para animarla rotación del instrumento
 function update() {
     angulo += 0.01;
-    if (instrumentoActual) {
-        instrumentoActual.rotation.y = angulo;
-    } else if (claveSol) {
-        claveSol.rotation.y = angulo;
-    }
 }
 
 // Función de renderizado continuo
