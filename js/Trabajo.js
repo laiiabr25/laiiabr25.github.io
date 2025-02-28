@@ -76,11 +76,12 @@ function cargarClaveSol() {
         claveSol = gltf.scene;
         // Calcular los límites del modelo
         const box = new THREE.Box3().setFromObject(claveSol);
+        const size = box.getSize(new THREE.Vector3());
         const center = box.getCenter(new THREE.Vector3());
         // Centrar el modelo en el origen de coordenadas
-        claveSol.position.sub(center);
+        claveSol.position.sub(-center.x, -center.y + size.y / 2, -center.z);
         // Escalar si es necesario
-        claveSol.scale.set(0-8, 0.8, 0.8);
+        claveSol.scale.set(.8, 0.8, 0.8);
         scene.add(claveSol);
     }, undefined, function(error) {
         console.error("Error al cargar el modelo:", error);
