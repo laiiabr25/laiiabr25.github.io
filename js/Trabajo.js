@@ -73,9 +73,14 @@ function cargarClaveSol() {
     const loader = new GLTFLoader();
 
     loader.load(`models/instrumentos/clave/scene.gltf`, function(gltf) {
-        claveSol = gltf.scene; // Guardar el modelo cargado
-        claveSol.position.set(0, -10, 0);
-        claveSol.scale.set(0.5, 0.5, 0.5);
+        claveSol = gltf.scene;
+        // Calcular los límites del modelo
+        const box = new THREE.Box3().setFromObject(claveSol);
+        const center = box.getCenter(new THREE.Vector3());
+        // Centrar el modelo en el origen de coordenadas
+        claveSol.position.sub(center);
+        // Escalar si es necesario
+        //claveSol.scale.set(0.5, 0.5, 0.5);
         scene.add(claveSol);
     }, undefined, function(error) {
         console.error("Error al cargar el modelo:", error);
