@@ -80,7 +80,7 @@ function cargarClaveSol() {
         // Centrar el modelo en el origen de coordenadas
         claveSol.position.sub(center);
         // Escalar si es necesario
-        claveSol.scale.set(0.5, 0.5, 0.5);
+        claveSol.scale.set(1, 1, 1);
         scene.add(claveSol);
     }, undefined, function(error) {
         console.error("Error al cargar el modelo:", error);
