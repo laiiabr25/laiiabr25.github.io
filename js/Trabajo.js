@@ -74,7 +74,7 @@ function cargarClaveSol() {
 
     loader.load(`models/instrumentos/clave/scene.gltf`, function(gltf) {
         claveSol = gltf.scene; // Guardar el modelo cargado
-        claveSol.position.set(0, 0, 0);
+        claveSol.position.set(0, -10, 0);
         claveSol.scale.set(0.5, 0.5, 0.5);
         scene.add(claveSol);
     }, undefined, function(error) {
