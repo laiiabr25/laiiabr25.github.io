@@ -72,7 +72,7 @@ function loadScene() {
 function cargarClaveSol() {
     const loader = new GLTFLoader();
 
-    loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
+    loader.load(`models/instrumentos/clave/scene.gltf`, function(gltf) {
         claveSol = gltf.scene; // Guardar el modelo cargado
         claveSol.position.set(0, 0, 0);
         claveSol.scale.set(1, 1, 1);
