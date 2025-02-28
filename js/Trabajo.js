@@ -78,7 +78,7 @@ function cargarClaveSol() {
         const box = new THREE.Box3().setFromObject(claveSol);
         const center = box.getCenter(new THREE.Vector3());
         // Centrar el modelo en el origen de coordenadas
-        claveSol.position.set(center.x, -center.y + size.y, -center.z);
+        claveSol.position.set(center.x, -center.y + size.y/ 2, -center.z);
         // Escalar si es necesario
         claveSol.scale.set(.8, 0.8, 0.8);
         scene.add(claveSol);
