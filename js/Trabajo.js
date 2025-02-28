@@ -76,9 +76,10 @@ function cargarClaveSol() {
         claveSol = gltf.scene;
         // Calcular los límites del modelo
         const box = new THREE.Box3().setFromObject(claveSol);
+        const size = box.getSize(new THREE.Vector3());
         const center = box.getCenter(new THREE.Vector3());
         // Centrar el modelo en el origen de coordenadas
-        claveSol.position.set(center.x, -center.y + size.y/ 2, -center.z);
+        claveSol.position.set(center.x, -center.y + size.y, -center.z);
         // Escalar si es necesario
         claveSol.scale.set(.8, 0.8, 0.8);
         scene.add(claveSol);
