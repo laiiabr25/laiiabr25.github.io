@@ -1,0 +1,11 @@
+Model Information:
+* title:	Treble Clef
+* source:	https://sketchfab.com/3d-models/treble-clef-42f049a861a5409baafc8002eccde066
+* author:	tonibois (https://sketchfab.com/tonibois)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Treble Clef" (https://sketchfab.com/3d-models/treble-clef-42f049a861a5409baafc8002eccde066) by tonibois (https://sketchfab.com/tonibois) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

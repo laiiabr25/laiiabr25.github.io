@@ -1,0 +1,350 @@
+{
+  "accessors": [
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 4032,
+      "max": [
+        1019.0,
+        1.7320499420166016,
+        1336.0
+      ],
+      "min": [
+        865.0,
+        -1.7320499420166016,
+        1032.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 48384,
+      "componentType": 5126,
+      "count": 4032,
+      "max": [
+        1.0,
+        0.8660255670547485,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.8660255670547485,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 24156,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 96768,
+      "componentType": 5126,
+      "count": 4200,
+      "max": [
+        929.0,
+        1.7320499420166016,
+        626.8480224609375
+      ],
+      "min": [
+        768.0,
+        -1.7320499420166016,
+        294.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 147168,
+      "componentType": 5126,
+      "count": 4200,
+      "max": [
+        1.0,
+        0.8660255670547485,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.8660255670547485,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 96624,
+      "componentType": 5125,
+      "count": 25164,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 197568,
+      "componentType": 5126,
+      "count": 26232,
+      "max": [
+        1081.0,
+        1.7320499420166016,
+        1758.0
+      ],
+      "min": [
+        515.0,
+        -1.7320499420166016,
+        157.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 512352,
+      "componentType": 5126,
+      "count": 26232,
+      "max": [
+        1.0,
+        0.8660255670547485,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.8660255670547485,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 197280,
+      "componentType": 5125,
+      "count": 157284,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 827136,
+      "componentType": 5126,
+      "count": 11198,
+      "max": [
+        899.0,
+        1.7320499420166016,
+        1357.0
+      ],
+      "min": [
+        580.0,
+        -1.7320499420166016,
+        796.1519775390625
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 961512,
+      "componentType": 5126,
+      "count": 11198,
+      "max": [
+        1.0,
+        0.8660255670547485,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.8660255670547485,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 826416,
+      "componentType": 5125,
+      "count": 67140,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "tonibois (https://sketchfab.com/tonibois)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/treble-clef-42f049a861a5409baafc8002eccde066",
+      "title": "Treble Clef"
+    },
+    "generator": "Sketchfab-12.68.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 1094976,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1095888,
+      "byteOffset": 1094976,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 2190864,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "mtl1",
+      "pbrMetallicRoughness": {
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.6
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "mtl15235",
+      "pbrMetallicRoughness": {
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.6
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "mtl19435",
+      "pbrMetallicRoughness": {
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.6
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "mtl4033",
+      "pbrMetallicRoughness": {
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.6
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Object_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0
+          },
+          "indices": 2,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_1",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 4,
+            "POSITION": 3
+          },
+          "indices": 5,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_2",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 7,
+            "POSITION": 6
+          },
+          "indices": 8,
+          "material": 2,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_3",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 10,
+            "POSITION": 9
+          },
+          "indices": 11,
+          "material": 3,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        -0.01800680875202021,
+        0.00174940402341249,
+        0.0012268580086147178,
+        0.0,
+        -0.0018146416022324363,
+        -0.007023434705636097,
+        -0.016618940548459027,
+        0.0,
+        -0.0011281270548989253,
+        -0.016625934530297704,
+        0.007149571724718581,
+        0.0,
+        225.43185424804688,
+        128.3383941650391,
+        -185.67945861816403,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "name": "clavsol_3.obj.cleaner.materialmerger.gles"
+    },
+    {
+      "mesh": 0,
+      "name": "Object_2"
+    },
+    {
+      "mesh": 1,
+      "name": "Object_3"
+    },
+    {
+      "mesh": 2,
+      "name": "Object_4"
+    },
+    {
+      "mesh": 3,
+      "name": "Object_5"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}
