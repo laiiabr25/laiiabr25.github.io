@@ -88,23 +88,34 @@ function cargarInstrumento(nombre) {
     // Cargar el modelo GLTF correspondiente al instrumento seleccionado
     loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
         instrumentoActual = gltf.scene; // Guardar el modelo cargado
+
         // Calcular el tamaño del bounding box
         const box = new THREE.Box3().setFromObject(instrumentoActual);
         const size = box.getSize(new THREE.Vector3());
+
         // Definir un tamaño estándar y escalar el modelo acorde
-        const tamañoDeseado = 3;
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const escala = tamañoDeseado / maxDim;
+        const alturaDeseada = 4;
+        const escala = alturaDeseada / size.y;
         instrumentoActual.scale.set(escala, escala, escala);
+
         // Recalcular el bounding box después de escalar
         const boxScaled = new THREE.Box3().setFromObject(instrumentoActual);
         const center = boxScaled.getCenter(new THREE.Vector3());
+
         // Centrar el instrumento en la escena
         instrumentoActual.position.set(-center.x, -boxScaled.min.y, -center.z);
+        
         // Instrumentos en vertical
-        if (nombre === "clarinete" || nombre === "trombon" || nombre === "violin") {
+        if (nombre === "clarinete" || nombre === "flauta") {
             instrumentoActual.rotation.x = -Math.PI/2;
         }
+        if (nombre === "violin") {
+            instrumentoActual.rotation.x = Math.PI/2;
+        }
+        if (nombre === "trombon") {
+            instrumentoActual.rotation.y = -Math.PI/2;
+        }
+        
         scene.add(instrumentoActual);
         instrumentoSeleccionado = nombre; // Guardar el nombre del instrumento cargado
     }, undefined, function(error) {
