@@ -110,9 +110,6 @@ function ajustarInstrumento(objeto, nombre) {
         instrumentoActual.scale.set(4 / size.y, 4 / size.y, 4 / size.y);
     }
 
-    objeto.scale.set(escala, escala, escala);
-    objeto.rotation.set(rotX, rotY, 0);
-
     const boxScaled = new THREE.Box3().setFromObject(instrumentoActual);
     const center = boxScaled.getCenter(new THREE.Vector3());
 
