@@ -10,7 +10,6 @@ let cameraControls;
 let angulo = 0;
 // Variables para guardar el modelo del instrumento
 let instrumentoActual = null;
-let claveSol = null;
 let instrumentoSeleccionado = null;
 // Lista de instrumentos disponibles
 let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica", "guitarra_electrica", "marimba", "piano", "saxo", "trombon", "trompa", "trompeta", "violin" ];
@@ -18,6 +17,7 @@ let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica",
 // Inicializar la escena, cargar los objetos y comenzar el renderizado
 init();
 loadScene();
+cargarInstrumento("bateria"); // Cargar la batería por defecto
 render();
 
 // Función para configurar el renderer, la escena y la cámara
@@ -63,29 +63,6 @@ function loadScene() {
 
     // Agregar los ejes para la referencia
     scene.add(new THREE.AxesHelper(3));
-
-    // Cargar la clave de sol al inicio
-    cargarClaveSol();
-}
-
-// Función para cargar la clave de sol
-function cargarClaveSol() {
-    const loader = new GLTFLoader();
-
-    loader.load(`models/instrumentos/clave/scene.gltf`, function(gltf) {
-        claveSol = gltf.scene;
-        // Calcular los límites del modelo
-        const box = new THREE.Box3().setFromObject(claveSol);
-        const center = box.getCenter(new THREE.Vector3());
-        // Centrar el modelo en el origen de coordenadas
-        claveSol.position.sub(center);
-        // Ajustar la posición en Y para que toque el suelo
-        // Escalar si es necesario
-        claveSol.scale.set(0.5, 0.5, 0.5);
-        scene.add(claveSol);
-    }, undefined, function(error) {
-        console.error("Error al cargar el modelo:", error);
-    });
 }
 
 // Función para cargar un instrumento según su nombre
@@ -99,18 +76,13 @@ function cargarInstrumento(nombre) {
             instrumentoActual = null;
         }
         instrumentoSeleccionado = null;
-        scene.add(claveSol);
+        cargarInstrumento("bateria");
         return;
     }
 
     // Si hay un instrumento cargado en la escena, se elimina antes de cargar otro
     if (instrumentoActual) {
         scene.remove(instrumentoActual);
-    }
-
-    // Quitar la clave de sol al seleccionar un instrumento
-    if (claveSol) {
-        scene.remove(claveSol);
     }
 
     // Cargar el modelo GLTF correspondiente al instrumento seleccionado
