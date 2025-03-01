@@ -156,7 +156,6 @@ function cargarInstrumento(nombre) {
 // Función de actualización para animarla rotación del instrumento
 function update() {
     angulo += 0.01;
-    instrumentoActual.rotation.y = angulo;
 }
 
 // Función de renderizado continuo
