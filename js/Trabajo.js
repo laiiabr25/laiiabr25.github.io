@@ -129,7 +129,8 @@ function cargarInstrumento(nombre) {
         }
         else if (nombre === "trompeta") {
             instrumentoActual.rotation.x = Math.PI / 2;
-            instrumentoActual.scale.set(1 / size.y, 1 / size.y, 1 / size.y);
+            instrumentoActual.rotation.z = Math.PI / 2;
+            instrumentoActual.scale.set(2 / size.y, 2 / size.y, 2 / size.y);
         }
         else {
             instrumentoActual.scale.set(4 / size.y, 4 / size.y, 4 / size.y);
