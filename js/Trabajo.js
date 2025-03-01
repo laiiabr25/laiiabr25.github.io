@@ -128,13 +128,11 @@ function cargarInstrumento(nombre) {
             instrumentoActual.scale.set(2.5 / size.y, 2.5 / size.y, 2.5 / size.y);
         }
         else if (nombre === "trompeta") {
-            instrumentoActual.rotation.set(Math.PI / 2, 0, 0); 
+            instrumentoActual.rotation.set(Math.PI, 0, 0); 
             instrumentoActual.scale.set(1.5 / size.y, 1.5 / size.y, 1.5 / size.y);
         }
         else if (nombre === "violin") {
-            instrumentoActual.rotation.set(0, 0, 0);
-            instrumentoActual.rotation.x = Math.PI / 2;
-            instrumentoActual.rotation.y = Math.PI;
+            instrumentoActual.rotation.set(Math.PI / 2, 0, 0);
             instrumentoActual.scale.set(0.5 / size.y, 0.5 / size.y, 0.5 / size.y);
         }
         else {
@@ -158,6 +156,7 @@ function cargarInstrumento(nombre) {
 // Función de actualización para animarla rotación del instrumento
 function update() {
     angulo += 0.01;
+    instrumentoActual.rotation.y = angulo;
 }
 
 // Función de renderizado continuo
