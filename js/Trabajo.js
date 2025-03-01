@@ -99,7 +99,7 @@ function cargarInstrumento(nombre) {
         }
         if (nombre === "clarinete" || nombre == "flauta") {
             instrumentoActual.rotation.set(0, 0, 0);
-            instrumentoActual.rotation.x = Math.PI / 2;
+            instrumentoActual.rotation.x = -Math.PI / 2;
             const boxAjustado = new THREE.Box3().setFromObject(instrumentoActual);
             instrumentoActual.position.y = -boxAjustado.min.y;
             //instrumentoActual.scale.set(2 / size.y, 2 / size.y, 2 / size.y);
