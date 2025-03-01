@@ -99,22 +99,31 @@ function cargarInstrumento(nombre) {
         }
         else if (nombre === "bateria") {
             instrumentoActual.rotation.y = Math.PI;
-            instrumentoActual.scale.set(3 / size.y, 3 / size.y, 3 / size.y)
+            instrumentoActual.scale.set(3.5 / size.y, 3.5 / size.y, 3.5 / size.y)
         }
-        else if (nombre === "clarinete" || nombre === "trombon") {
+        else if (nombre === "clarinete") {
             instrumentoActual.rotation.set(0, 0, 0);
             instrumentoActual.rotation.x = -Math.PI / 2;
             const boxAjustado = new THREE.Box3().setFromObject(instrumentoActual);
-            instrumentoActual.position.y = boxAjustado.min.y;
+            instrumentoActual.position.y = -boxAjustado.min.y;
             instrumentoActual.scale.set(0.5 / size.y, 0.5 / size.y, 0.5 / size.y);
         }
         else if (nombre === "flauta") {
             instrumentoActual.rotation.set(0, 0, 0);
             instrumentoActual.rotation.x = Math.PI / 2;
-            instrumentoActual.scale.set(0.15 / size.y, 0.15 / size.y, 0.15 / size.y);
+            instrumentoActual.scale.set(0.2 / size.y, 0.2 / size.y, 0.2 / size.y);
         }
         else if (nombre === "piano") {
             instrumentoActual.rotation.y = Math.PI;
+        }
+        else if (nombre === "marimba") {
+            instrumentoActual.scale.set(3 / size.y, 3 / size.y, 3 / size.y);
+        }
+        else if (nombre === "trombon") {
+            instrumentoActual.rotation.x = Math.PI / 2;
+            const boxAjustado = new THREE.Box3().setFromObject(instrumentoActual);
+            instrumentoActual.position.y = boxAjustado.min.y;
+            instrumentoActual.scale.set(0.5 / size.y, 0.5 / size.y, 0.5 / size.y);
         }
         else {
             instrumentoActual.scale.set(4 / size.y, 4 / size.y, 4 / size.y);
