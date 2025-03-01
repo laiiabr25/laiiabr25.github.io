@@ -46,6 +46,14 @@ function loadScene() {
     scene.add(new THREE.AxesHelper(3));
 }
 
+let modelosCargados = {};
+listaInstrumentos.forEach(nombre => {
+    const loader = new GLTFLoader();
+    loader.load(`models/instrumentos/${nombre}/scene.gltf`, (gltf) => {
+        modelosCargados[nombre] = gltf.scene;
+    });
+});
+
 function cargarInstrumento(nombre) {
     if (instrumentoSeleccionado === nombre) {
         resetearInstrumento();
@@ -53,15 +61,45 @@ function cargarInstrumento(nombre) {
     }
 
     const loader = new GLTFLoader();
-    loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
+
+    const loadingMessage = document.createElement("div");
+    loadingMessage.style.position = "absolute";
+    loadingMessage.style.top = "50%";
+    loadingMessage.style.left = "50%";
+    loadingMessage.style.transform = "translate(-50%, -50%)";
+    loadingMessage.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+    loadingMessage.style.color = "white";
+    loadingMessage.style.padding = "10px";
+    loadingMessage.style.borderRadius = "5px";
+    document.body.appendChild(loadingMessage);
+
+    scene.remove(instrumentoActual);
+    if (modelosCargados[nombre]) {
+        instrumentoActual = modelosCargados[nombre];
+        ajustarInstrumento(instrumentoActual, nombre);
+        scene.add(instrumentoActual);
+        instrumentoSeleccionado = nombre;
+    } else {
+        loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
+            instrumentoActual = gltf.scene;
+            modelosCargados[nombre] = gltf.scene;
+            ajustarInstrumento(instrumentoActual, nombre);
+            scene.add(instrumentoActual);
+            instrumentoSeleccionado = nombre;
+        });
+    }
+
+    /*loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
         scene.remove(instrumentoActual);
         instrumentoActual = gltf.scene;
         ajustarInstrumento(instrumentoActual, nombre);
         scene.add(instrumentoActual);
         instrumentoSeleccionado = nombre;
+        document.body.removeChild(loadingMessage);
     }, undefined, function(error) {
         console.error("Error al cargar el modelo:", error);
-    });
+        document.body.removeChild(loadingMessage);
+    });*/
 }
 
 function ajustarInstrumento(objeto, nombre) {
@@ -89,7 +127,7 @@ function ajustarInstrumento(objeto, nombre) {
         instrumentoActual.rotation.y = Math.PI;
     }
     else if (nombre === "marimba") {
-        instrumentoActual.scale.set(3 / size.y, 3 / size.y, 3 / size.y);
+        instrumentoActual.scale.set(2.5 / size.y, 2.5 / size.y, 2.5 / size.y);
     }
     else if (nombre === "trombon") {
         instrumentoActual.rotation.x = Math.PI / 2;
