@@ -104,8 +104,8 @@ function cargarInstrumento(nombre) {
         else if (nombre === "clarinete") {
             instrumentoActual.rotation.set(0, 0, 0);
             instrumentoActual.rotation.x = -Math.PI / 2;
-            const boxAjustado = new THREE.Box3().setFromObject(instrumentoActual);
-            instrumentoActual.position.y = boxAjustado.min.y;
+            //const boxAjustado = new THREE.Box3().setFromObject(instrumentoActual);
+            //instrumentoActual.position.y = boxAjustado.min.y;
             instrumentoActual.scale.set(0.5 / size.y, 0.5 / size.y, 0.5 / size.y);
         }
         else if (nombre === "flauta") {
@@ -120,12 +120,16 @@ function cargarInstrumento(nombre) {
             instrumentoActual.scale.set(3 / size.y, 3 / size.y, 3 / size.y);
         }
         else if (nombre === "trombon") {
-            instrumentoActual.rotation.x = -Math.PI / 2;
+            instrumentoActual.rotation.x = Math.PI / 2;
             instrumentoActual.rotation.y = Math.PI / 2;
             instrumentoActual.scale.set(0.7 / size.y, 0.7 / size.y, 0.7 / size.y);
         }
         else if (nombre === "trompa") {
-            instrumentoActual.scale.set(3 / size.y, 3 / size.y, 3 / size.y);
+            instrumentoActual.scale.set(2.5 / size.y, 2.5 / size.y, 2.5 / size.y);
+        }
+        else if (nombre === "trompeta") {
+            instrumentoActual.rotation.x = Math.PI / 2;
+            instrumentoActual.scale.set(1 / size.y, 1 / size.y, 1 / size.y);
         }
         else {
             instrumentoActual.scale.set(4 / size.y, 4 / size.y, 4 / size.y);
