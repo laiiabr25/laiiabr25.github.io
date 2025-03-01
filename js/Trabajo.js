@@ -57,7 +57,8 @@ function cargarInstrumento(nombre) {
     const loadingMessage = document.createElement("div");
     loadingMessage.textContent = "Cargando...";
     loadingMessage.style.position = "absolute";
-    loadingMessage.style.top = "100%";
+    loadingMessage.style.top = "50%";
+    loadingMessage.style.left = "50%";
     loadingMessage.style.transform = "translate(-50%, -50%)";
     loadingMessage.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
     loadingMessage.style.color = "white";
