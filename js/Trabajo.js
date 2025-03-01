@@ -97,10 +97,10 @@ function cargarInstrumento(nombre) {
         if (nombre === "bateria") {
             instrumentoActual.rotation.y = Math.PI;
         }
-        /*if (nombre === "clarinete" || nombre == "flauta") {
+        if (nombre === "clarinete" || nombre == "flauta") {
             instrumentoActual.position.x = -Math.PI / 2;
-            instrumentoActual.scale.set(2 / size.y, 2 / size.y, 2 / size.y);
-        }*/
+            //instrumentoActual.scale.set(2 / size.y, 2 / size.y, 2 / size.y);
+        }
         else {
             instrumentoActual.scale.set(4 / size.y, 4 / size.y, 4 / size.y);
         }
