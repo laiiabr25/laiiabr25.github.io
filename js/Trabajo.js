@@ -1,7 +1,6 @@
 import * as THREE from "../lib/three.module.js";
 import {GLTFLoader} from "../lib/GLTFLoader.module.js"
 import {OrbitControls} from "../lib/OrbitControls.module.js"
-import {DRACOLoader} from "../lib/DRACOLoader.js"
 
 let renderer, scene, camera, cameraControls;
 let instrumentoActual =  null;
@@ -54,9 +53,6 @@ function cargarInstrumento(nombre) {
     }
 
     const loader = new GLTFLoader();
-    const dracoloader = new DRACOLoader();
-    dracoloader.setDecoderPath("../lib/draco/");
-    loader.setDRACOLoader(dracoloader);
 
     const loadingMessage = document.createElement("div");
     loadingMessage.textContent = `Cargando... ${nombre}`;
