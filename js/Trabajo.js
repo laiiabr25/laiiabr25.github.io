@@ -93,9 +93,33 @@ function cargarInstrumento(nombre) {
         const box = new THREE.Box3().setFromObject(instrumentoActual);
         const size = box.getSize(new THREE.Vector3());
 
-        // Definir un tamaño estándar y escalar el modelo acorde
-        const alturaDeseada = 4;
-        const escala = alturaDeseada / size.y;
+        // Definir escalas personalizadas para cada instrumento
+        let escala;
+        switch (nombre) {
+            case "clarinete":
+                escala = (4 / size.y) / 3;
+                break;
+            case "flauta":
+                escala = (4 / size.y) / 4;
+                break;
+            case "marimba":
+                escala = (4 / size.y) * 0.6;
+                break;
+            case "trombon":
+                escala = (4 / size.y) / 2;
+                break;
+            case "trompeta":
+                escala = (4 / size.y) / 2;
+                break;
+            case "trompa":
+                escala = (4 / size.y) * 0.8;
+                break;
+            case "violin":
+                escala = (4 / size.y) / 4;
+                break;
+            default:
+                escala = (4 / size.y);
+        }
         instrumentoActual.scale.set(escala, escala, escala);
 
         // Recalcular el bounding box después de escalar
@@ -113,7 +137,7 @@ function cargarInstrumento(nombre) {
             instrumentoActual.rotation.x = Math.PI/2;
         }
         if (nombre === "trombon") {
-            instrumentoActual.rotation.y = -Math.PI/2;
+            instrumentoActual.rotation.x = -Math.PI/2;
         }
         
         scene.add(instrumentoActual);
