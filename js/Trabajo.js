@@ -1,9 +1,10 @@
 import * as THREE from "../lib/three.module.js";
 import {GLTFLoader} from "../lib/GLTFLoader.module.js"
 import {OrbitControls} from "../lib/OrbitControls.module.js"
+import {DRACOLoader} from "../lib/DRACOLoader.js"
 
 let renderer, scene, camera, cameraControls;
-let instrumentoActual = new THREE.Group(); // null
+let instrumentoActual =  null;
 let instrumentoSeleccionado = null;
 let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica", "guitarra_electrica", "marimba", "piano", "saxo", "trombon", "trompa", "trompeta", "violin" ];
 
@@ -53,9 +54,12 @@ function cargarInstrumento(nombre) {
     }
 
     const loader = new GLTFLoader();
+    const dracoloader = new DRACOLoader();
+    dracoloader.setDecoderPath("../lib/draco/");
+    loader.setDRACOLoader(dracoloader);
 
     const loadingMessage = document.createElement("div");
-    loadingMessage.textContent = "Cargando...";
+    loadingMessage.textContent = `Cargando... ${nombre}`;
     loadingMessage.style.position = "absolute";
     loadingMessage.style.top = "20%";
     loadingMessage.style.left = "50%";
