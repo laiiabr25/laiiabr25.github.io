@@ -65,91 +65,58 @@ function cargarInstrumento(nombre) {
 }
 
 function ajustarInstrumento(objeto, nombre) {
-    const ajustes = {
-        clave: { escala: 5 },
-        bateria: { rotY: Math.PI, escala: 3.5 },
-        clarinete: {rotX: -Math.PI / 2, escala: 0.5 },
-        flauta: { rotX: Math.PI / 2, escala: 0.2 },
-        piano: { rotY: Math.PI },
-        marimba: { escala: 3 },
-        trombon: { rotX: Math.PI / 2, rotY: Math.PI / 2, escala: 0.7 },
-        trompeta: { escala: 1.5 },
-        violin: {rotX: Math.PI / 2, escala: 0.5 },
-    };
+    const box = new THREE.Box3().setFromObject(objeto);
+    const size = box.getSize(new THREE.Vector3());
 
-    const { escala = 4, rotX = 0, rotY = 0 } = ajustes[nombre] || {};
+    if (nombre === "clave") {
+        instrumentoActual.scale.set(5 / size.y, 5 / size.y, 5 / size.y);
+    }
+    else if (nombre === "bateria") {
+        instrumentoActual.rotation.y = Math.PI;
+        instrumentoActual.scale.set(3.5 / size.y, 3.5 / size.y, 3.5 / size.y)
+    }
+    else if (nombre === "clarinete") {
+        instrumentoActual.rotation.set(0, 0, 0);
+        instrumentoActual.rotation.x = -Math.PI / 2;
+        instrumentoActual.scale.set(0.5 / size.y, 0.5 / size.y, 0.5 / size.y);
+    }
+    else if (nombre === "flauta") {
+        instrumentoActual.rotation.set(0, 0, 0);
+        instrumentoActual.rotation.x = Math.PI / 2;
+        instrumentoActual.scale.set(0.2 / size.y, 0.2 / size.y, 0.2 / size.y);
+    }
+    else if (nombre === "piano") {
+        instrumentoActual.rotation.y = Math.PI;
+    }
+    else if (nombre === "marimba") {
+        instrumentoActual.scale.set(3 / size.y, 3 / size.y, 3 / size.y);
+    }
+    else if (nombre === "trombon") {
+        instrumentoActual.rotation.x = Math.PI / 2;
+        instrumentoActual.rotation.y = Math.PI / 2;
+        instrumentoActual.scale.set(0.7 / size.y, 0.7 / size.y, 0.7 / size.y);
+    }
+    else if (nombre === "trompa") {
+        instrumentoActual.scale.set(2.5 / size.y, 2.5 / size.y, 2.5 / size.y);
+    }
+    else if (nombre === "trompeta") {
+        instrumentoActual.scale.set(1.5 / size.y, 1.5 / size.y, 1.5 / size.y);
+    }
+    else if (nombre === "violin") {
+        instrumentoActual.rotation.set(Math.PI / 2, 0, 0);
+        instrumentoActual.scale.set(0.5 / size.y, 0.5 / size.y, 0.5 / size.y);
+    }
+    else {
+        instrumentoActual.scale.set(4 / size.y, 4 / size.y, 4 / size.y);
+    }
+
     objeto.scale.set(escala, escala, escala);
     objeto.rotation.set(rotX, rotY, 0);
 
-    const box = new THREE.Box3().setFromObject(objeto);
-    const center = box.getCenter(new THREE.Vector3());
-    objeto.position.set(-center.x, -center.y, -center.z);
-    /*loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
-        // Crear un grupo para contener el instrumento
-        const grupoInstrumento = new THREE.Group();
-        grupoInstrumento.add(gltf.scene);
+    const boxScaled = new THREE.Box3().setFromObject(instrumentoActual);
+    const center = boxScaled.getCenter(new THREE.Vector3());
 
-        instrumentoActual = grupoInstrumento; // Guardar el modelo como el instrumento actual
-
-        // Calcular el tamaño del bounding box
-        const box = new THREE.Box3().setFromObject(instrumentoActual);
-        const size = box.getSize(new THREE.Vector3());
-
-        // Definir escala
-        if (nombre === "clave") {
-            instrumentoActual.scale.set(5 / size.y, 5 / size.y, 5 / size.y);
-        }
-        else if (nombre === "bateria") {
-            instrumentoActual.rotation.y = Math.PI;
-            instrumentoActual.scale.set(3.5 / size.y, 3.5 / size.y, 3.5 / size.y)
-        }
-        else if (nombre === "clarinete") {
-            instrumentoActual.rotation.set(0, 0, 0);
-            instrumentoActual.rotation.x = -Math.PI / 2;
-            instrumentoActual.scale.set(0.5 / size.y, 0.5 / size.y, 0.5 / size.y);
-        }
-        else if (nombre === "flauta") {
-            instrumentoActual.rotation.set(0, 0, 0);
-            instrumentoActual.rotation.x = Math.PI / 2;
-            instrumentoActual.scale.set(0.2 / size.y, 0.2 / size.y, 0.2 / size.y);
-        }
-        else if (nombre === "piano") {
-            instrumentoActual.rotation.y = Math.PI;
-        }
-        else if (nombre === "marimba") {
-            instrumentoActual.scale.set(3 / size.y, 3 / size.y, 3 / size.y);
-        }
-        else if (nombre === "trombon") {
-            instrumentoActual.rotation.x = Math.PI / 2;
-            instrumentoActual.rotation.y = Math.PI / 2;
-            instrumentoActual.scale.set(0.7 / size.y, 0.7 / size.y, 0.7 / size.y);
-        }
-        else if (nombre === "trompa") {
-            instrumentoActual.scale.set(2.5 / size.y, 2.5 / size.y, 2.5 / size.y);
-        }
-        else if (nombre === "trompeta") {
-            instrumentoActual.scale.set(1.5 / size.y, 1.5 / size.y, 1.5 / size.y);
-        }
-        else if (nombre === "violin") {
-            instrumentoActual.rotation.set(Math.PI / 2, 0, 0);
-            instrumentoActual.scale.set(0.5 / size.y, 0.5 / size.y, 0.5 / size.y);
-        }
-        else {
-            instrumentoActual.scale.set(4 / size.y, 4 / size.y, 4 / size.y);
-        }
-
-        // Recalcular el bounding box después de escalar
-        const boxScaled = new THREE.Box3().setFromObject(instrumentoActual);
-        const center = boxScaled.getCenter(new THREE.Vector3());
-
-        // Centrar el instrumento en la escena
-        instrumentoActual.position.set(-center.x, -boxScaled.min.y, -center.z);
-        
-        scene.add(instrumentoActual);
-        instrumentoSeleccionado = nombre; // Guardar el nombre del instrumento cargado
-    }, undefined, function(error) {
-        console.error("Error al cargar el modelo:", error);
-    })*/
+    instrumentoActual.position.set(-center.x, -boxScaled.min.y, -center.z);
 }
 
 function resetearInstrumento() {
