@@ -93,34 +93,8 @@ function cargarInstrumento(nombre) {
         const box = new THREE.Box3().setFromObject(instrumentoActual);
         const size = box.getSize(new THREE.Vector3());
 
-        // Definir escalas personalizadas para cada instrumento
-        let escala;
-        switch (nombre) {
-            case "clarinete":
-                escala = (4 / size.y) / 3;
-                break;
-            case "flauta":
-                escala = (4 / size.y) / 4;
-                break;
-            case "marimba":
-                escala = (4 / size.y) * 0.6;
-                break;
-            case "trombon":
-                escala = (4 / size.y) / 2;
-                break;
-            case "trompeta":
-                escala = (4 / size.y) / 2;
-                break;
-            case "trompa":
-                escala = (4 / size.y) * 0.8;
-                break;
-            case "violin":
-                escala = (4 / size.y) / 4;
-                break;
-            default:
-                escala = (4 / size.y);
-        }
-        instrumentoActual.scale.set(escala, escala, escala);
+        // Definir escala
+        instrumentoActual.scale.set(4 / size.y, 4 / size.y, 4 / size.y);
 
         // Recalcular el bounding box después de escalar
         const boxScaled = new THREE.Box3().setFromObject(instrumentoActual);
@@ -128,17 +102,6 @@ function cargarInstrumento(nombre) {
 
         // Centrar el instrumento en la escena
         instrumentoActual.position.set(-center.x, -boxScaled.min.y, -center.z);
-        
-        // Instrumentos en vertical
-        if (nombre === "clarinete" || nombre === "flauta") {
-            instrumentoActual.rotation.x = -Math.PI/2;
-        }
-        if (nombre === "violin") {
-            instrumentoActual.rotation.x = Math.PI/2;
-        }
-        if (nombre === "trombon") {
-            instrumentoActual.rotation.x = -Math.PI/2;
-        }
         
         scene.add(instrumentoActual);
         instrumentoSeleccionado = nombre; // Guardar el nombre del instrumento cargado
