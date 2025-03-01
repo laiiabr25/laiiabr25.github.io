@@ -17,7 +17,7 @@ let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica",
 // Inicializar la escena, cargar los objetos y comenzar el renderizado
 init();
 loadScene();
-cargarInstrumento("bateria"); // Cargar la batería por defecto
+cargarInstrumento("clave"); // Cargar la batería por defecto
 render();
 
 // Función para configurar el renderer, la escena y la cámara
@@ -76,7 +76,7 @@ function cargarInstrumento(nombre) {
             instrumentoActual = null;
         }
         instrumentoSeleccionado = null;
-        cargarInstrumento("bateria");
+        cargarInstrumento("clave");
         return;
     }
 
@@ -92,16 +92,19 @@ function cargarInstrumento(nombre) {
         const box = new THREE.Box3().setFromObject(instrumentoActual);
         const size = box.getSize(new THREE.Vector3());
         // Definir un tamaño estándar y escalar el modelo acorde
-        const tamañoDeseado = 2;
+        const tamañoDeseado = 3;
         const maxDim = Math.max(size.x, size.y, size.z);
         const escala = tamañoDeseado / maxDim;
-        //instrumentoActual.position.set(0, 0, 0);
         instrumentoActual.scale.set(escala, escala, escala);
         // Recalcular el bounding box después de escalar
         const boxScaled = new THREE.Box3().setFromObject(instrumentoActual);
         const center = boxScaled.getCenter(new THREE.Vector3());
         // Centrar el instrumento en la escena
         instrumentoActual.position.set(-center.x, -boxScaled.min.y, -center.z);
+        // Instrumentos en vertical
+        if (nombre === "clarinete" || nombre === "trombon" || nombre === "violin") {
+            instrumentoActual.rotation.x = -Math.PI/2;
+        }
         scene.add(instrumentoActual);
         instrumentoSeleccionado = nombre; // Guardar el nombre del instrumento cargado
     }, undefined, function(error) {
