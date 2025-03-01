@@ -5,15 +5,7 @@ import {OrbitControls} from "../lib/OrbitControls.module.js"
 let renderer, scene, camera, cameraControls;
 let instrumentoActual = new THREE.Group(); // null
 let instrumentoSeleccionado = null;
-let listaInstrumentos = [ "clave", "bateria", "clarinete", "flauta", "guitarra_acustica", "guitarra_electrica", "marimba", "piano", "saxo", "trombon", "trompa", "trompeta", "violin" ];
-
-let modelosCargados = {};
-listaInstrumentos.forEach(nombre => {
-    const loader = new GLTFLoader();
-    loader.load(`models/instrumentos/${nombre}/scene.gltf`, (gltf) => {
-        modelosCargados[nombre] = gltf.scene;
-    });
-});
+let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica", "guitarra_electrica", "marimba", "piano", "saxo", "trombon", "trompa", "trompeta", "violin" ];
 
 init();
 loadScene();
@@ -73,23 +65,7 @@ function cargarInstrumento(nombre) {
     loadingMessage.style.borderRadius = "5px";
     document.body.appendChild(loadingMessage);
 
-    scene.remove(instrumentoActual);
-    if (modelosCargados[nombre]) {
-        instrumentoActual = modelosCargados[nombre];
-        ajustarInstrumento(instrumentoActual, nombre);
-        scene.add(instrumentoActual);
-        instrumentoSeleccionado = nombre;
-    } else {
-        loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
-            instrumentoActual = gltf.scene;
-            modelosCargados[nombre] = gltf.scene;
-            ajustarInstrumento(instrumentoActual, nombre);
-            scene.add(instrumentoActual);
-            instrumentoSeleccionado = nombre;
-        });
-    }
-
-    /*loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
+    loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
         scene.remove(instrumentoActual);
         instrumentoActual = gltf.scene;
         ajustarInstrumento(instrumentoActual, nombre);
@@ -99,7 +75,7 @@ function cargarInstrumento(nombre) {
     }, undefined, function(error) {
         console.error("Error al cargar el modelo:", error);
         document.body.removeChild(loadingMessage);
-    });*/
+    });
 }
 
 function ajustarInstrumento(objeto, nombre) {
