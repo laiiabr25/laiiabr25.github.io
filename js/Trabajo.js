@@ -94,7 +94,7 @@ function cargarInstrumento(nombre) {
         const size = box.getSize(new THREE.Vector3());
 
         // Definir escala
-        if (nombre === "bateria") {
+        if (nombre === "bateria" || nombre === "piano") {
             instrumentoActual.rotation.y = Math.PI;
         }
         else if (nombre === "clarinete") {
@@ -107,13 +107,10 @@ function cargarInstrumento(nombre) {
         else if (nombre === "flauta") {
             instrumentoActual.rotation.set(0, 0, 0);
             instrumentoActual.rotation.x = Math.PI / 2;
-            instrumentoActual.scale.set(0.5 / size.y, 0.5 / size.y, 0.5 / size.y);
-        }
-        else if (nombre === "marimba") {
-            instrumentoActual.scale.set(2 / size.y, 2 / size.y, 2 / size.y);
+            instrumentoActual.scale.set(0.25 / size.y, 0.25 / size.y, 0.25 / size.y);
         }
         else {
-            instrumentoActual.scale.set(4 / size.y, 4 / size.y, 4 / size.y);
+            instrumentoActual.scale.set(3 / size.y, 3 / size.y, 3 / size.y);
         }
 
         // Recalcular el bounding box después de escalar
