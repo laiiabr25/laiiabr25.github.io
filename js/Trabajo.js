@@ -128,11 +128,12 @@ function cargarInstrumento(nombre) {
             instrumentoActual.scale.set(2.5 / size.y, 2.5 / size.y, 2.5 / size.y);
         }
         else if (nombre === "trompeta") {
-            instrumentoActual.rotation.set(Math.PI * 1.5, 0, 0); 
+            instrumentoActual.rotation.set(THREE.MathUtils.degToRad(180), 0, 0); 
             instrumentoActual.scale.set(1.5 / size.y, 1.5 / size.y, 1.5 / size.y);
         }
         else if (nombre === "violin") {
             instrumentoActual.rotation.set(Math.PI / 2, 0, 0);
+            //instrumentoActual.position.y -= boxScaled.min.y;
             instrumentoActual.scale.set(0.5 / size.y, 0.5 / size.y, 0.5 / size.y);
         }
         else {
