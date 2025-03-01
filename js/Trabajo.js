@@ -87,7 +87,11 @@ function cargarInstrumento(nombre) {
 
     // Cargar el modelo GLTF correspondiente al instrumento seleccionado
     loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
-        instrumentoActual = gltf.scene; // Guardar el modelo cargado
+        // Crear un grupo para contener el instrumento
+        const grupoInstrumento = new THREE.Group();
+        grupoInstrumento.add(gltf.scene);
+
+        instrumentoActual = grupoInstrumento; // Guardar el modelo como el instrumento actual
 
         // Calcular el tamaño del bounding box
         const box = new THREE.Box3().setFromObject(instrumentoActual);
@@ -104,8 +108,6 @@ function cargarInstrumento(nombre) {
         else if (nombre === "clarinete") {
             instrumentoActual.rotation.set(0, 0, 0);
             instrumentoActual.rotation.x = -Math.PI / 2;
-            //const boxAjustado = new THREE.Box3().setFromObject(instrumentoActual);
-            //instrumentoActual.position.y = boxAjustado.min.y;
             instrumentoActual.scale.set(0.5 / size.y, 0.5 / size.y, 0.5 / size.y);
         }
         else if (nombre === "flauta") {
@@ -128,8 +130,6 @@ function cargarInstrumento(nombre) {
             instrumentoActual.scale.set(2.5 / size.y, 2.5 / size.y, 2.5 / size.y);
         }
         else if (nombre === "trompeta") {
-            instrumentoActual.rotation.set(0, 0, 0); 
-            instrumentoActual.position.y -= boxScaled.min.y;
             instrumentoActual.scale.set(1.5 / size.y, 1.5 / size.y, 1.5 / size.y);
         }
         else if (nombre === "violin") {
@@ -157,6 +157,9 @@ function cargarInstrumento(nombre) {
 // Función de actualización para animarla rotación del instrumento
 function update() {
     angulo += 0.01;
+    if (instrumentoActual) {
+        instrumentoActual.rotation.y = angulo;
+    }
 }
 
 // Función de renderizado continuo
