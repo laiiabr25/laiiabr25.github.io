@@ -102,14 +102,14 @@ function cargarInstrumento(nombre) {
             instrumentoActual.rotation.x = -Math.PI / 2;
             const boxAjustado = new THREE.Box3().setFromObject(instrumentoActual);
             instrumentoActual.position.y = -boxAjustado.min.y;
-            instrumentoActual.scale.set(size.y / 2, size.y / 2, size.y / 2);
+            instrumentoActual.scale.set(10 / size.y, 10 / size.y, 10 / size.y);
         }
         else if (nombre === "flauta") {
             instrumentoActual.rotation.set(0, 0, 0);
             instrumentoActual.rotation.x = Math.PI / 2;
             const boxAjustado = new THREE.Box3().setFromObject(instrumentoActual);
-            instrumentoActual.position.y = -boxAjustado.min.y;
-            instrumentoActual.scale.set(size.y / 2, size.y / 2, size.y / 2);
+            instrumentoActual.position.y = boxAjustado.min.y;
+            instrumentoActual.scale.set(10 / size.y, 10 / size.y, 10 / size.y);
         }
         else {
             instrumentoActual.scale.set(4 / size.y, 4 / size.y, 4 / size.y);
