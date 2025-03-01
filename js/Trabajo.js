@@ -7,6 +7,14 @@ let instrumentoActual = new THREE.Group(); // null
 let instrumentoSeleccionado = null;
 let listaInstrumentos = [ "clave", "bateria", "clarinete", "flauta", "guitarra_acustica", "guitarra_electrica", "marimba", "piano", "saxo", "trombon", "trompa", "trompeta", "violin" ];
 
+let modelosCargados = {};
+listaInstrumentos.forEach(nombre => {
+    const loader = new GLTFLoader();
+    loader.load(`models/instrumentos/${nombre}/scene.gltf`, (gltf) => {
+        modelosCargados[nombre] = gltf.scene;
+    });
+});
+
 init();
 loadScene();
 cargarInstrumento("clave");
@@ -45,14 +53,6 @@ function loadScene() {
 
     scene.add(new THREE.AxesHelper(3));
 }
-
-let modelosCargados = {};
-listaInstrumentos.forEach(nombre => {
-    const loader = new GLTFLoader();
-    loader.load(`models/instrumentos/${nombre}/scene.gltf`, (gltf) => {
-        modelosCargados[nombre] = gltf.scene;
-    });
-});
 
 function cargarInstrumento(nombre) {
     if (instrumentoSeleccionado === nombre) {
