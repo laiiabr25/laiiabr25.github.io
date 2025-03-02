@@ -1,25 +1,39 @@
 import * as THREE from "../lib/three.module.js";
 import {GLTFLoader} from "../lib/GLTFLoader.module.js"
 import {OrbitControls} from "../lib/OrbitControls.module.js"
+// NUEVO
+import {TWEEN} from "../lib/tween.module.min.js";
+import {GUI} from "../lib/lil-gui.module.min.js";
 
 let renderer, scene, camera, cameraControls;
 let instrumentoActual =  null;
 let instrumentoSeleccionado = null;
 let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica", "guitarra_electrica", "marimba", "piano", "saxo", "trombon", "trompa", "trompeta", "violin" ];
+// NUEVO
+let sound, audioLoader, listener;
 
 init();
 loadScene();
+// NUEVO
+crearLuces();
+// VIEJO
 cargarInstrumento("clave");
+// NUEVO
+crearGUI();
+// VIEJO
 render();
 
 function init() {
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    //
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    //
     document.getElementById('container').appendChild(renderer.domElement);
 
     scene = new THREE.Scene();
-    //scene.background = new THREE.Color(0.5, 0.5, 0.5);
-    scene.background = new THREE.TextureLoader().load("../images/musical_background.jpg");
+    scene.background = new THREE.TextureLoader().load("images/musical_background.jpg");
 
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0.5, 2, 10);
@@ -28,6 +42,11 @@ function init() {
     cameraControls = new OrbitControls(camera, renderer.domElement);
     cameraControls.target.set(0, 1, 0);
 
+    listener = new THREE.AudioListener();
+    camera.add(listener);
+    audioLoader = new THREE.AudioLoader();
+    sound = new THREE.Audio(listener);
+
     window.addEventListener('resize', () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -35,22 +54,26 @@ function init() {
     });
 
     crearListaInstrumentos();
-    crearLuces();
 }
 
 function crearLuces() {
+    const luzAmbiental = new THREE.AmbientLight(0xffffff,0.6);
+    scene.add(luzAmbiental);
 
+    const luzDireccional = new THREE.DirectionalLight(0xffffff, 0.8);
+    luzDireccional.position.set(5, 10, 5);
+    luzDireccional.castShadow = true;
+    scene.add(luzDireccional);
 }
 
 function loadScene() {
-    const material = new THREE.MeshStandardMaterial({ color: "white" });
+    const textura = new THREE.TextureLoader().load("images/wood512.jpg");
+    const material = new THREE.MeshStandardMaterial({ map: textura });
 
-    const suelo = new THREE.Mesh(new THREE.PlaneGeometry(10, 10, 10, 10), material);
-    suelo.rotation.x = -Math.PI / 2;
-    suelo.receiveShadow = true;
-    scene.add(suelo);
-
-    //scene.add(new THREE.AxesHelper(3));
+    const tarima = new THREE.Mesh(new THREE.BoxGeometry(10, 0.5, 10), material);
+    tarima.position.y = -0.25;
+    tarima.receiveShadow = true;
+    scene.add(tarima);
 }
 
 function cargarInstrumento(nombre) {
@@ -74,27 +97,26 @@ function cargarInstrumento(nombre) {
     document.body.appendChild(loadingMessage);
 
     loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
-        scene.remove(instrumentoActual);
+        if (instrumentoActual) {
+            scene.remove(instrumentoActual)
+        }
         instrumentoActual = gltf.scene;
         instrumentoActual.traverse(node => {
             if (node.isMesh) {
-                node.material = new THREE.MeshStandardMaterial( {
-                    color: node.material.color,
-                    metalness: 0.5,
-                    roughness: 0.3
-                });
                 node.castShadow = true;
                 node.receiveShadow = true;
                 if (nombre === "clave") {
-                   node.material = new THREE.MeshStandardMaterial({ color: "black", wireframe: false, side: THREE.DoubleSide, emissive: 0x000000 });
+                   node.material = new THREE.MeshStandardMaterial({ color: "black", wireframe: true, linewidth: 3, side: THREE.DoubleSide });
                 }
+                node.material.metalness = 0.5;
+                node.material.roughness = 0.3;
             }
         });
         ajustarInstrumento(instrumentoActual, nombre);
         scene.add(instrumentoActual);
         instrumentoSeleccionado = nombre;
-        //document.body.removeChild(loadingMessage);
-        instrumentoActual.addEventListener("click", () => alternarSonidoYAnimacion(nombre));
+        document.body.removeChild(loadingMessage);
+        reproducirSonido(nombre);
     }, undefined, function(error) {
         console.error("Error al cargar el modelo:", error);
         document.body.removeChild(loadingMessage);
@@ -159,6 +181,15 @@ function resetearInstrumento() {
     instrumentoActual = null;
     instrumentoSeleccionado = null;
     cargarInstrumento("clave");
+}
+
+function reproducirSonido(nombre) {
+    audioLoader.load(`sounds/${nombre}.mp3`, function(buffer) {
+        sound.setBuffer(buffer);
+        sound.setLoop(false);
+        sound.setVolume(0.5);
+        sound.play();
+    });
 }
 
 function update() {
