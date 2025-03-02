@@ -23,6 +23,7 @@ function init() {
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0.5, 0.5, 0.5);
+    // scene.background = new THREE.TextureLoader().load("textures/musical_background.jpg");
 
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0.5, 2, 10);
@@ -42,13 +43,13 @@ function init() {
 }
 
 function crearLuces() {
-    //const luzAmbiental = new THREE.AmbientLight(0xffffff, 0.6);
-    //scene.add(luzAmbiental);
+    const luzAmbiental = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(luzAmbiental);
 
-    const luzDireccional = new THREE.DirectionalLight(0xffffff, 1);
+    /*const luzDireccional = new THREE.DirectionalLight(0xffffff, 1);
     luzDireccional.position.set(5, 10, 5);
     luzDireccional.castShadow = true;
-    scene.add(luzDireccional);
+    scene.add(luzDireccional);*/
 }
 
 function loadScene() {
@@ -118,7 +119,6 @@ function ajustarInstrumento(objeto, nombre) {
     else if (nombre === "clarinete") {
         instrumentoActual.rotation.set(0, 0, 0);
         instrumentoActual.rotation.x = -Math.PI / 2;
-        instrumentoActual.rotation.y = Math.PI;
         instrumentoActual.scale.set(0.5 / size.y, 0.5 / size.y, 0.5 / size.y);
     }
     else if (nombre === "flauta") {
