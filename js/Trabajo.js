@@ -49,11 +49,19 @@ function crearLuces() {
     const luzDireccional = new THREE.DirectionalLight(0xffffff, 1);
     luzDireccional.position.set(5, 10, 5);
     luzDireccional.castShadow = true;
+    luzDireccional.shadow.mapSize.width = 2048;
+    luzDireccional.shadow.mapSize.height = 2048;
+    luzDireccional.intensity = 2.5;
     scene.add(luzDireccional);
+
+    const luzPuntual = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+    luzPuntual.position.set(0, 5, 0);
+    scene.add(luzPuntual);
 }
 
 function loadScene() {
-    const material = new THREE.MeshStandardMaterial({ color: 'yellow' });
+    const textura = new THREE.TextureLoader().load("../images/wood512.jpg");
+    const material = new THREE.MeshStandardMaterial({ map: textura });
 
     const suelo = new THREE.Mesh(new THREE.PlaneGeometry(10, 10, 10, 10), material);
     suelo.rotation.x = -Math.PI / 2;
@@ -90,6 +98,11 @@ function cargarInstrumento(nombre) {
         instrumentoActual = gltf.scene;
         instrumentoActual.traverse(node => {
             if (node.isMesh) {
+                child.material = new THREE.MeshStandardMaterial( {
+                    color: child.material.color,
+                    metalness: 0.5,
+                    roughness: 0.3
+                });
                 node.castShadow = true;
                 node.receiveShadow = true;
             }
@@ -111,6 +124,7 @@ function ajustarInstrumento(objeto, nombre) {
 
     if (nombre === "clave") {
         instrumentoActual.scale.set(5 / size.y, 5 / size.y, 5 / size.y);
+        node.material = new THREE.MeshStandardMaterial({ color: 0xffff00, wireframe: false, side: THREE.DoubleSide, emissive: 0x000000 });
     }
     else if (nombre === "bateria") {
         instrumentoActual.rotation.y = Math.PI;
@@ -119,6 +133,7 @@ function ajustarInstrumento(objeto, nombre) {
     else if (nombre === "clarinete") {
         instrumentoActual.rotation.set(0, 0, 0);
         instrumentoActual.rotation.x = Math.PI / 2;
+        instrumentoActual.rotation.y = Math.PI;
         instrumentoActual.scale.set(0.5 / size.y, 0.5 / size.y, 0.5 / size.y);
     }
     else if (nombre === "flauta") {
