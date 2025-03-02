@@ -1,9 +1,6 @@
 import * as THREE from "../lib/three.module.js";
 import {GLTFLoader} from "../lib/GLTFLoader.module.js"
 import {OrbitControls} from "../lib/OrbitControls.module.js"
-// NUEVO
-import {TWEEN} from "../lib/tween.module.min.js";
-import {GUI} from "../lib/lil-gui.module.min.js";
 
 let renderer, scene, camera, cameraControls;
 let instrumentoActual =  null;
@@ -18,9 +15,6 @@ loadScene();
 crearLuces();
 // VIEJO
 cargarInstrumento("clave");
-// NUEVO
-crearGUI();
-// VIEJO
 render();
 
 function init() {
