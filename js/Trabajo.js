@@ -6,9 +6,6 @@ let renderer, scene, camera, cameraControls;
 let instrumentoActual =  null;
 let instrumentoSeleccionado = null;
 let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica", "guitarra_electrica", "marimba", "piano", "saxo", "trombon", "trompa", "trompeta", "violin" ];
-let mixer;
-let clock = new THREE.Clock();
-let sonidoActual = null;
 
 init();
 loadScene();
@@ -166,30 +163,8 @@ function resetearInstrumento() {
     cargarInstrumento("clave");
 }
 
-function alternarSonidoYAnimacion(nombre) {
-    if (sonidoActual && !sonidoActual.paused) {
-        detenerSonidoYAnimacion();
-    } else {
-        reproducirSonido(nombre);
-    }
-}
-
-function detenerSonidoYAnimacion() {
-    if (sonidoActual) {
-        sonidoActual.pause();
-        sonidoActual = null;
-    }
-    animacionActiva = false;
-}
-
-function reproducirSonido(nombre) {
-    sonidoActual = new Audio(`sounds/${nombre}.mp3`);
-    sonidoActual.play();
-}
-
 function update() {
-    let delta = clock.getDelta();
-    if (mixer) mixer.update(delta);
+    
 }
 
 function render() {
