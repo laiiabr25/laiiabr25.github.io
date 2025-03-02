@@ -6,24 +6,20 @@ let renderer, scene, camera, cameraControls;
 let instrumentoActual =  null;
 let instrumentoSeleccionado = null;
 let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica", "guitarra_electrica", "marimba", "piano", "saxo", "trombon", "trompa", "trompeta", "violin" ];
-// NUEVO
 let sound, audioLoader, listener;
+let sonidoReproduciendose = false;
 
 init();
 loadScene();
-// NUEVO
 crearLuces();
-// VIEJO
 cargarInstrumento("clave");
 render();
 
 function init() {
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    //
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    //
     document.getElementById('container').appendChild(renderer.domElement);
 
     scene = new THREE.Scene();
@@ -54,7 +50,7 @@ function crearLuces() {
     const luzAmbiental = new THREE.AmbientLight(0xffffff,0.6);
     scene.add(luzAmbiental);
 
-    const luzDireccional = new THREE.DirectionalLight(0xffffff, 0.8);
+    const luzDireccional = new THREE.DirectionalLight(0xffffff, 3);
     luzDireccional.position.set(5, 10, 5);
     luzDireccional.castShadow = true;
     scene.add(luzDireccional);
@@ -88,7 +84,18 @@ function cargarInstrumento(nombre) {
     loadingMessage.style.color = "white";
     loadingMessage.style.padding = "10px";
     loadingMessage.style.borderRadius = "5px";
+    
     document.body.appendChild(loadingMessage);
+
+    const soundMessage = document.createElement("div");
+    soundMessage.style.position = "absolute";
+    soundMessage.style.top = "20%";
+    soundMessage.style.left = "50%";
+    soundMessage.style.transform = "translate(-50%, -50%)";
+    soundMessage.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+    soundMessage.style.color = "white";
+    soundMessage.style.padding = "10px";
+    soundMessage.style.borderRadius = "5px";
 
     loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
         if (instrumentoActual) {
@@ -110,7 +117,10 @@ function cargarInstrumento(nombre) {
         scene.add(instrumentoActual);
         instrumentoSeleccionado = nombre;
         document.body.removeChild(loadingMessage);
-        reproducirSonido(nombre);
+        sonidoReproduciendose = false;
+        methodInfoBasicReject.textContent = "Pulsa sobre el instrumento para escuchar su sonido."
+        document.body.appendChild(soundMessage);
+        instrumentoActual.addEventListener("click", () => reproducirSonido(nombre));
     }, undefined, function(error) {
         console.error("Error al cargar el modelo:", error);
         document.body.removeChild(loadingMessage);
@@ -174,16 +184,25 @@ function resetearInstrumento() {
     scene.remove(instrumentoActual);
     instrumentoActual = null;
     instrumentoSeleccionado = null;
+    soundMessage.style.display = "none";
     cargarInstrumento("clave");
 }
 
 function reproducirSonido(nombre) {
-    audioLoader.load(`sounds/${nombre}.mp3`, function(buffer) {
-        sound.setBuffer(buffer);
-        sound.setLoop(false);
-        sound.setVolume(0.5);
-        sound.play();
-    });
+    if (sonidoReproduciendose) {
+        sound.stop();
+        sonidoReproduciendose = false;
+        soundMessage.textContent = "Pulsa sobre el instrumento para escuchar su sonido."
+    } else {
+        audioLoader.load(`sounds/${nombre}.mp3`, function(buffer) {
+            sound.setBuffer(buffer);
+            sound.setLoop(false);
+            sound.setVolume(0.5);
+            sound.play();
+            sonidoReproduciendose = true;
+            soundMessage.textContent = "Pulsa nuevamente para detener el sonido."
+        });
+    }
 }
 
 function update() {
