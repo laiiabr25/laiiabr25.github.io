@@ -42,8 +42,8 @@ function init() {
 }
 
 function crearLuces() {
-    const luzAmbiental = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(luzAmbiental);
+    //const luzAmbiental = new THREE.AmbientLight(0xffffff, 0.6);
+    //scene.add(luzAmbiental);
 
     const luzDireccional = new THREE.DirectionalLight(0xffffff, 1);
     luzDireccional.position.set(5, 10, 5);
@@ -59,7 +59,7 @@ function loadScene() {
     suelo.receiveShadow = true;
     scene.add(suelo);
 
-    scene.add(new THREE.AxesHelper(3));
+    //scene.add(new THREE.AxesHelper(3));
 }
 
 function cargarInstrumento(nombre) {
@@ -118,11 +118,11 @@ function ajustarInstrumento(objeto, nombre) {
     else if (nombre === "clarinete") {
         instrumentoActual.rotation.set(0, 0, 0);
         instrumentoActual.rotation.x = -Math.PI / 2;
+        instrumentoActual.rotation.y = Math.PI;
         instrumentoActual.scale.set(0.5 / size.y, 0.5 / size.y, 0.5 / size.y);
     }
     else if (nombre === "flauta") {
         instrumentoActual.rotation.set(0, 0, 0);
-        instrumentoActual.rotation.x = Math.PI / 2;
         instrumentoActual.scale.set(0.2 / size.y, 0.2 / size.y, 0.2 / size.y);
     }
     else if (nombre === "piano") {
@@ -132,7 +132,6 @@ function ajustarInstrumento(objeto, nombre) {
         instrumentoActual.scale.set(2.5 / size.y, 2.5 / size.y, 2.5 / size.y);
     }
     else if (nombre === "trombon") {
-        instrumentoActual.rotation.x = Math.PI / 2;
         instrumentoActual.rotation.y = Math.PI / 2;
         instrumentoActual.scale.set(0.7 / size.y, 0.7 / size.y, 0.7 / size.y);
     }
