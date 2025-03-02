@@ -60,7 +60,7 @@ function crearLuces() {
 }
 
 function loadScene() {
-    const textura = new THREE.TextureLoader().load("../images/wood512.jpg");
+    const textura = new THREE.TextureLoader().load(`images/wood512.jpg`);
     const material = new THREE.MeshStandardMaterial({ map: textura });
 
     const suelo = new THREE.Mesh(new THREE.PlaneGeometry(10, 10, 10, 10), material);
@@ -105,6 +105,9 @@ function cargarInstrumento(nombre) {
                 });
                 node.castShadow = true;
                 node.receiveShadow = true;
+                if (nombre === "clave") {
+                   node.material = new THREE.MeshStandardMaterial({ color: 0xffff00, wireframe: false, side: THREE.DoubleSide, emissive: 0x000000 });
+                }
             }
         });
         ajustarInstrumento(instrumentoActual, nombre);
@@ -124,7 +127,6 @@ function ajustarInstrumento(objeto, nombre) {
 
     if (nombre === "clave") {
         instrumentoActual.scale.set(5 / size.y, 5 / size.y, 5 / size.y);
-        node.material = new THREE.MeshStandardMaterial({ color: 0xffff00, wireframe: false, side: THREE.DoubleSide, emissive: 0x000000 });
     }
     else if (nombre === "bateria") {
         instrumentoActual.rotation.y = Math.PI;
