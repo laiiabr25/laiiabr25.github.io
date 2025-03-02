@@ -55,11 +55,9 @@ function loadScene() {
 
 function cargarInstrumento(nombre) {
     if (instrumentoSeleccionado === nombre) {
-        detenerSonidoYAnimacion();
         resetearInstrumento();
         return;
     }
-    detenerSonidoYAnimacion();
 
     const loader = new GLTFLoader();
 
@@ -95,7 +93,7 @@ function cargarInstrumento(nombre) {
         ajustarInstrumento(instrumentoActual, nombre);
         scene.add(instrumentoActual);
         instrumentoSeleccionado = nombre;
-        document.body.removeChild(loadingMessage);
+        //document.body.removeChild(loadingMessage);
         instrumentoActual.addEventListener("click", () => alternarSonidoYAnimacion(nombre));
     }, undefined, function(error) {
         console.error("Error al cargar el modelo:", error);
