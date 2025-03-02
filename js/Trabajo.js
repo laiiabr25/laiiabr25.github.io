@@ -8,8 +8,7 @@ let instrumentoSeleccionado = null;
 let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica", "guitarra_electrica", "marimba", "piano", "saxo", "trombon", "trompa", "trompeta", "violin" ];
 let mixer;
 let clock = new THREE.Clock();
-//let animacionActiva = false;
-//let sonidoActual = null;
+let sonidoActual = null;
 
 init();
 loadScene();
@@ -22,8 +21,8 @@ function init() {
     document.getElementById('container').appendChild(renderer.domElement);
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0.5, 0.5, 0.5);
-    // scene.background = new THREE.TextureLoader().load("../images/musical_background.jpg");
+    //scene.background = new THREE.Color(0.5, 0.5, 0.5);
+    scene.background = new THREE.TextureLoader().load("../images/musical_background.jpg");
 
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0.5, 2, 10);
@@ -43,25 +42,11 @@ function init() {
 }
 
 function crearLuces() {
-    const luzAmbiental = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(luzAmbiental);
 
-    const luzDireccional = new THREE.DirectionalLight(0xffffff, 1);
-    luzDireccional.position.set(5, 10, 5);
-    luzDireccional.castShadow = true;
-    luzDireccional.shadow.mapSize.width = 2048;
-    luzDireccional.shadow.mapSize.height = 2048;
-    luzDireccional.intensity = 2.5;
-    scene.add(luzDireccional);
-
-    const luzPuntual = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
-    luzPuntual.position.set(0, 5, 0);
-    scene.add(luzPuntual);
 }
 
 function loadScene() {
-    const textura = new THREE.TextureLoader().load(`images/wood512.jpg`);
-    const material = new THREE.MeshStandardMaterial({ map: textura });
+    const material = new THREE.MeshStandardMaterial({ color: "white" });
 
     const suelo = new THREE.Mesh(new THREE.PlaneGeometry(10, 10, 10, 10), material);
     suelo.rotation.x = -Math.PI / 2;
@@ -73,11 +58,11 @@ function loadScene() {
 
 function cargarInstrumento(nombre) {
     if (instrumentoSeleccionado === nombre) {
-        //detenerSonidoYAnimacion();
+        detenerSonidoYAnimacion();
         resetearInstrumento();
         return;
     }
-    //detenerSonidoYAnimacion();
+    detenerSonidoYAnimacion();
 
     const loader = new GLTFLoader();
 
@@ -106,7 +91,7 @@ function cargarInstrumento(nombre) {
                 node.castShadow = true;
                 node.receiveShadow = true;
                 if (nombre === "clave") {
-                   node.material = new THREE.MeshStandardMaterial({ color: 0xffff00, wireframe: false, side: THREE.DoubleSide, emissive: 0x000000 });
+                   node.material = new THREE.MeshStandardMaterial({ color: "black", wireframe: false, side: THREE.DoubleSide, emissive: 0x000000 });
                 }
             }
         });
@@ -114,7 +99,7 @@ function cargarInstrumento(nombre) {
         scene.add(instrumentoActual);
         instrumentoSeleccionado = nombre;
         document.body.removeChild(loadingMessage);
-        //instrumentoActual.addEventListener("click", () => alternarSonidoYAnimacion(nombre));
+        instrumentoActual.addEventListener("click", () => alternarSonidoYAnimacion(nombre));
     }, undefined, function(error) {
         console.error("Error al cargar el modelo:", error);
         document.body.removeChild(loadingMessage);
@@ -181,27 +166,26 @@ function resetearInstrumento() {
     cargarInstrumento("clave");
 }
 
-/*function alternarSonidoYAnimacion(nombre) {
+function alternarSonidoYAnimacion(nombre) {
     if (sonidoActual && !sonidoActual.paused) {
         detenerSonidoYAnimacion();
     } else {
         reproducirSonido(nombre);
-        //animarInstrumento(instrumentoActual);
     }
-}*/
+}
 
-/*function detenerSonidoYAnimacion() {
+function detenerSonidoYAnimacion() {
     if (sonidoActual) {
         sonidoActual.pause();
         sonidoActual = null;
     }
     animacionActiva = false;
-}*/
+}
 
-/*function reproducirSonido(nombre) {
+function reproducirSonido(nombre) {
     sonidoActual = new Audio(`sounds/${nombre}.mp3`);
     sonidoActual.play();
-}*/
+}
 
 function update() {
     let delta = clock.getDelta();
