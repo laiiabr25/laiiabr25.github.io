@@ -23,7 +23,7 @@ function init() {
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0.5, 0.5, 0.5);
-    // scene.background = new THREE.TextureLoader().load("textures/musical_background.jpg");
+    // scene.background = new THREE.TextureLoader().load("../images/musical_background.jpg");
 
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0.5, 2, 10);
@@ -98,8 +98,8 @@ function cargarInstrumento(nombre) {
         instrumentoActual = gltf.scene;
         instrumentoActual.traverse(node => {
             if (node.isMesh) {
-                child.material = new THREE.MeshStandardMaterial( {
-                    color: child.material.color,
+                node.material = new THREE.MeshStandardMaterial( {
+                    color: node.material.color,
                     metalness: 0.5,
                     roughness: 0.3
                 });
