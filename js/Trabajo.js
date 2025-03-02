@@ -6,6 +6,10 @@ let renderer, scene, camera, cameraControls;
 let instrumentoActual =  null;
 let instrumentoSeleccionado = null;
 let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica", "guitarra_electrica", "marimba", "piano", "saxo", "trombon", "trompa", "trompeta", "violin" ];
+let mixer;
+let clock = new THREE.Clock();
+//let animacionActiva = false;
+//let sonidoActual = null;
 
 init();
 loadScene();
@@ -34,13 +38,25 @@ function init() {
     });
 
     crearListaInstrumentos();
+    crearLuces();
+}
+
+function crearLuces() {
+    const luzAmbiental = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(luzAmbiental);
+
+    const luzDireccional = new THREE.DirectionalLight(0xffffff, 1);
+    luzDireccional.position.set(5, 10, 5);
+    luzDireccional.castShadow = true;
+    scene.add(luzDireccional);
 }
 
 function loadScene() {
-    const material = new THREE.MeshBasicMaterial({ color: 'yellow', wireframe: true });
+    const material = new THREE.MeshStandardMaterial({ color: 'yellow' });
 
     const suelo = new THREE.Mesh(new THREE.PlaneGeometry(10, 10, 10, 10), material);
     suelo.rotation.x = -Math.PI / 2;
+    suelo.receiveShadow = true;
     scene.add(suelo);
 
     scene.add(new THREE.AxesHelper(3));
@@ -48,9 +64,11 @@ function loadScene() {
 
 function cargarInstrumento(nombre) {
     if (instrumentoSeleccionado === nombre) {
+        //detenerSonidoYAnimacion();
         resetearInstrumento();
         return;
     }
+    //detenerSonidoYAnimacion();
 
     const loader = new GLTFLoader();
 
@@ -69,10 +87,17 @@ function cargarInstrumento(nombre) {
     loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
         scene.remove(instrumentoActual);
         instrumentoActual = gltf.scene;
+        instrumentoActual.traverse(node => {
+            if (node.isMesh) {
+                node.castShadow = true;
+                node.receiveShadow = true;
+            }
+        });
         ajustarInstrumento(instrumentoActual, nombre);
         scene.add(instrumentoActual);
         instrumentoSeleccionado = nombre;
         document.body.removeChild(loadingMessage);
+        //instrumentoActual.addEventListener("click", () => alternarSonidoYAnimacion(nombre));
     }, undefined, function(error) {
         console.error("Error al cargar el modelo:", error);
         document.body.removeChild(loadingMessage);
@@ -133,13 +158,36 @@ function ajustarInstrumento(objeto, nombre) {
 
 function resetearInstrumento() {
     scene.remove(instrumentoActual);
-    instrumentoActual = new THREE.Group();
+    instrumentoActual = null;
     instrumentoSeleccionado = null;
     cargarInstrumento("clave");
 }
 
+/*function alternarSonidoYAnimacion(nombre) {
+    if (sonidoActual && !sonidoActual.paused) {
+        detenerSonidoYAnimacion();
+    } else {
+        reproducirSonido(nombre);
+        //animarInstrumento(instrumentoActual);
+    }
+}*/
+
+/*function detenerSonidoYAnimacion() {
+    if (sonidoActual) {
+        sonidoActual.pause();
+        sonidoActual = null;
+    }
+    animacionActiva = false;
+}*/
+
+/*function reproducirSonido(nombre) {
+    sonidoActual = new Audio(`sounds/${nombre}.mp3`);
+    sonidoActual.play();
+}*/
+
 function update() {
-    
+    let delta = clock.getDelta();
+    if (mixer) mixer.update(delta);
 }
 
 function render() {
