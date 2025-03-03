@@ -114,7 +114,6 @@ function cargarInstrumento(nombre) {
     loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
         if (instrumentoActual) {
             scene.remove(instrumentoActual)
-            document.body.removeChild(soundMessage);
         }
         instrumentoActual = gltf.scene;
         instrumentoActual.traverse(node => {
