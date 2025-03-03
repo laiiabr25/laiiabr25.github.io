@@ -36,10 +36,12 @@ function init() {
     });
 
     crearListaInstrumentos();
+    crearLuces();
 }
 
 function crearLuces() {
-    
+    const ambiental = new THREE.AmbientLight(0x222222);
+    scene.add(ambiental);
 }
 
 function loadScene() {
