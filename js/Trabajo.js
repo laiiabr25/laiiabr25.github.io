@@ -40,34 +40,30 @@ function init() {
 }
 
 function crearLuces() {
-    const ambiental = new THREE.AmbientLight(0x222222);
+    const ambiental = new THREE.AmbientLight(0x444444);
     scene.add(ambiental);
 
-    const direccional = new THREE.DirectionalLight(0xFFFFFF, 0.3);
-    direccional.position.set(-1, 3, -1);
-    direccional.castShadow = true;
+    const direccional = new THREE.DirectionalLight(0xFFFFFF, 0.2);
+    direccional.position.set(-2, 4, -2);
     scene.add(direccional);
 
-    const puntual = new THREE.PointLight(0xFFFFFF, 0.7);
+    const puntual = new THREE.PointLight(0xFFFFFF, 0.8);
     puntual.position.set(0, 5, 0);
-    puntual.castShadow = true;
     scene.add(puntual);
 
-    const focal = new THREE.SpotLight(0xFFFFFF, 0.6);
-    focal.position.set(0, 6, 3);
-    focal.angle = Math.PI / 6;
-    focal.penumbra = 0.2;
-    focal.castShadow = true;
-    focal.shadow.camera.far = 20;
-    focal.shadow.camera.fov = 80;
+    const focal = new THREE.SpotLight(0xFFFFFF, 0.5);
+    focal.position.set(0, 5, 3);
+    focal.angle = Math.PI / 8;
+    focal.penumbra = 0.3;
+    focal.target.position.set(0, 1, 0);
     scene.add(focal);
 
     function actualizarFoco() {
         if (instrumentoActual) {
             const box = new THREE.Box3().setFromObject(instrumentoActual);
             const center = box.getCenter(new THREE.Vector3());
-            puntual.position.set(center.x, center.y + 2, center.z);
-            focal.position.set(center.x, center.y + 4, center.z + 2);
+            puntual.position.set(center.x, center.y + 2.5, center.z);
+            focal.position.set(center.x, center.y + 5, center.z + 4);
             focal.target.position.copy(center);
             focal.target.updateMatrixWorld();
         }
