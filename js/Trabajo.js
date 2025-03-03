@@ -6,7 +6,6 @@ let renderer, scene, camera, cameraControls;
 let instrumentoActual =  null;
 let instrumentoSeleccionado = null;
 let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica", "guitarra_electrica", "marimba", "piano", "saxo", "trombon", "trompa", "trompeta", "violin" ];
-let sound, audioLoader, listener;
 
 init();
 loadScene();
@@ -31,11 +30,6 @@ function init() {
     cameraControls = new OrbitControls(camera, renderer.domElement);
     cameraControls.target.set(0, 1, 0);
 
-    listener = new THREE.AudioListener();
-    camera.add(listener);
-    audioLoader = new THREE.AudioLoader();
-    sound = new THREE.Audio(listener);
-
     window.addEventListener('resize', () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -46,13 +40,7 @@ function init() {
 }
 
 function crearLuces() {
-    const luzAmbiental = new THREE.AmbientLight(0xffffff, 2);
-    scene.add(luzAmbiental);
-
-    const luzDireccional = new THREE.DirectionalLight(0xffffff, 0.8);
-    luzDireccional.position.set(5, 10, 5);
-    luzDireccional.castShadow = true;
-    scene.add(luzDireccional);
+    
 }
 
 function loadScene() {
@@ -99,6 +87,7 @@ function cargarInstrumento(nombre) {
     loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
         if (instrumentoActual) {
             scene.remove(instrumentoActual)
+            document.body.removeChild(soundMessage);
         }
         instrumentoActual = gltf.scene;
         instrumentoActual.traverse(node => {
@@ -116,10 +105,8 @@ function cargarInstrumento(nombre) {
         scene.add(instrumentoActual);
         instrumentoSeleccionado = nombre;
         document.body.removeChild(loadingMessage);
-        sonidoReproduciendose = false;
         soundMessage.textContent = "Pulsa sobre el instrumento para escuchar su sonido."
         document.body.appendChild(soundMessage);
-        instrumentoActual.addEventListener("click", () => reproducirSonido(nombre));
     }, undefined, function(error) {
         console.error("Error al cargar el modelo:", error);
         document.body.removeChild(loadingMessage);
@@ -183,23 +170,7 @@ function resetearInstrumento() {
     scene.remove(instrumentoActual);
     instrumentoActual = null;
     instrumentoSeleccionado = null;
-    soundMessage.style.display = "none";
     cargarInstrumento("clave");
-}
-
-function reproducirSonido(nombre) {
-    if (sonidoReproduciendose) {
-        sound.stop();
-        sonidoReproduciendose = false;
-    } else {
-        audioLoader.load(`sounds/${nombre}.mp3`, function(buffer) {
-            sound.setBuffer(buffer);
-            sound.setLoop(false);
-            sound.setVolume(0.5);
-            sound.play();
-            sonidoReproduciendose = true;
-        });
-    }
 }
 
 function update() {
