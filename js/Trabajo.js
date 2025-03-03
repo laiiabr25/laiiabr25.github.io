@@ -40,7 +40,7 @@ function init() {
 }
 
 function crearLuces() {
-    const ambiental = new THREE.AmbientLight(0x444444);
+    const ambiental = new THREE.AmbientLight(0x666666);
     scene.add(ambiental);
 
     const direccional = new THREE.DirectionalLight(0xFFFFFF, 0.2);
@@ -48,24 +48,31 @@ function crearLuces() {
     scene.add(direccional);
 
     const puntual = new THREE.PointLight(0xFFFFFF, 0.8);
-    puntual.position.set(0, 5, 0);
+    puntual.position.set(0, 4, 2);
+    puntual.decay = 2;
     scene.add(puntual);
 
-    const focal = new THREE.SpotLight(0xFFFFFF, 0.5);
-    focal.position.set(0, 5, 3);
-    focal.angle = Math.PI / 8;
-    focal.penumbra = 0.3;
+    const focal = new THREE.SpotLight(0xFFFFFF, 0.4);
+    focal.position.set(0, 6, 3);
+    focal.angle = Math.PI / 7;
+    focal.penumbra = 0.4;
     focal.target.position.set(0, 1, 0);
     scene.add(focal);
+
+    const luzSuperior = new THREE.PointLight(0xFFFFFF, 0.4);
+    luzSuperior.position.set(0, 6, 0);
+    luzSuperior.decay = 2;
+    scene.add(luzSuperior);
 
     function actualizarFoco() {
         if (instrumentoActual) {
             const box = new THREE.Box3().setFromObject(instrumentoActual);
             const center = box.getCenter(new THREE.Vector3());
-            puntual.position.set(center.x, center.y + 2.5, center.z);
-            focal.position.set(center.x, center.y + 5, center.z + 4);
+            puntual.position.set(center.x, center.y + 3, center.z);
+            focal.position.set(center.x, center.y + 5, center.z + 2);
             focal.target.position.copy(center);
             focal.target.updateMatrixWorld();
+            luzSuperior.position.set(center.x, center.y + 6, center.z);
         }
     }
 
@@ -154,9 +161,6 @@ function ajustarInstrumento(objeto, nombre) {
         instrumentoActual.rotation.set(0, 0, 0);
         instrumentoActual.rotation.x = Math.PI / 2;
         instrumentoActual.scale.set(0.2 / size.y, 0.2 / size.y, 0.2 / size.y);
-    }
-    else if (nombre === "piano") {
-        instrumentoActual.rotation.y = Math.PI;
     }
     else if (nombre === "marimba") {
         instrumentoActual.scale.set(2.5 / size.y, 2.5 / size.y, 2.5 / size.y);
