@@ -42,6 +42,42 @@ function init() {
 function crearLuces() {
     const ambiental = new THREE.AmbientLight(0x222222);
     scene.add(ambiental);
+
+    const direccional = new THREE.DirectionalLight(0xFFFFFF, 0.3);
+    direccional.position.set(-1, 3, -1);
+    direccional.castShadow = true;
+    scene.add(direccional);
+
+    const puntual = new THREE.PointLight(0xFFFFFF, 0.7);
+    puntual.position.set(0, 5, 0);
+    puntual.castShadow = true;
+    scene.add(puntual);
+
+    const focal = new THREE.SpotLight(0xFFFFFF, 0.6);
+    focal.position.set(0, 6, 3);
+    focal.angle = Math.PI / 6;
+    focal.penumbra = 0.2;
+    focal.castShadow = true;
+    focal.shadow.camera.far = 20;
+    focal.shadow.camera.fov = 80;
+    scene.add(focal);
+
+    function actualizarFoco() {
+        if (instrumentoActual) {
+            const box = new THREE.Box3().setFromObject(instrumentoActual);
+            const center = box.getCenter(new THREE.Vector3());
+            puntual.position.set(center.x, center.y + 2, center.z);
+            focal.position.set(center.x, center.y + 4, center.z + 2);
+            focal.target.position.copy(center);
+            focal.target.updateMatrixWorld();
+        }
+    }
+
+    const originalCargarInstrumento = cargarInstrumento;
+    cargarInstrumento = function (nombre) {
+        originalCargarInstrumento.call(this, nombre);
+        setTimeout(actualizarFoco, 500);
+    }
 }
 
 function loadScene() {
@@ -75,16 +111,6 @@ function cargarInstrumento(nombre) {
     
     document.body.appendChild(loadingMessage);
 
-    const soundMessage = document.createElement("div");
-    soundMessage.style.position = "absolute";
-    soundMessage.style.top = "20%";
-    soundMessage.style.left = "50%";
-    soundMessage.style.transform = "translate(-50%, -50%)";
-    soundMessage.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-    soundMessage.style.color = "white";
-    soundMessage.style.padding = "10px";
-    soundMessage.style.borderRadius = "5px";
-
     loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
         if (instrumentoActual) {
             scene.remove(instrumentoActual)
@@ -106,8 +132,6 @@ function cargarInstrumento(nombre) {
         scene.add(instrumentoActual);
         instrumentoSeleccionado = nombre;
         document.body.removeChild(loadingMessage);
-        soundMessage.textContent = "Pulsa sobre el instrumento para escuchar su sonido."
-        document.body.appendChild(soundMessage);
     }, undefined, function(error) {
         console.error("Error al cargar el modelo:", error);
         document.body.removeChild(loadingMessage);
