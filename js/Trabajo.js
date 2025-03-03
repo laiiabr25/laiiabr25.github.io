@@ -5,7 +5,7 @@ import {OrbitControls} from "../lib/OrbitControls.module.js"
 let renderer, scene, camera, cameraControls;
 let instrumentoActual =  null;
 let instrumentoSeleccionado = null;
-let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica", "guitarra_electrica", "marimba", "piano", "saxo", "trombon", "trompa", "trompeta", "violin" ];
+let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica", "marimba", "piano", "saxo", "trombon", "trompa", "trompeta", "violin" ];
 
 init();
 loadScene();
@@ -40,7 +40,7 @@ function init() {
 }
 
 function crearLuces() {
-    const ambiental = new THREE.AmbientLight(0x666666);
+    const ambiental = new THREE.AmbientLight(0x111111);
     scene.add(ambiental);
 
     const direccional = new THREE.DirectionalLight(0xFFFFFF, 0.2);
