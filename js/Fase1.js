@@ -41,7 +41,7 @@ function loadScene() {
     const maxColumnas = 4;
 
     instrumentos.forEach((nombre, index) => {
-        loader.load(`../models/instrumentos/{nombre}/scene.gltf`, gltf => {
+        loader.load(`../models/instrumentos/${nombre}/scene.gltf`, gltf => {
             const instrumento = gltf.scene;
             
             // Centrado y escalado uniforme
