@@ -1,6 +1,6 @@
 import * as THREE from "../lib/three.module.js";
-import {GLTFLoader} from "../lib/GLTFLoader.module.js"
-import {OrbitControls} from "../lib/OrbitControls.module.js"
+import {GLTFLoader} from "../lib/GLTFLoader.module.js";
+import {OrbitControls} from "../lib/OrbitControls.module.js";
 
 let renderer, scene, camera, cameraControls;
 let instrumentoActual =  null;
@@ -40,7 +40,7 @@ function init() {
 }
 
 function crearLuces() {
-    const ambiental = new THREE.AmbientLight(0x111111);
+    const ambiental = new THREE.AmbientLight(0x666666);
     scene.add(ambiental);
 
     const direccional = new THREE.DirectionalLight(0xFFFFFF, 0.2);
