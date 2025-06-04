@@ -85,7 +85,7 @@ function cargarInstrumento(nombre) {
     
     document.body.appendChild(loadingMessage);
 
-    loader.load(rutaBase + "scene.gltf", function(gltf) {
+    loader.load("scene.gltf", function(gltf) {
         if (instrumentoActual) {
             rotadorInstrumento.remove(instrumentoActual)
         }
