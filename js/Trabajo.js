@@ -51,7 +51,7 @@ function init() {
 }
 
 function loadScene() {
-    const textura = new THREE.TextureLoader().load("images/Concrete046_4K-JPG_Color.jpg");
+    const textura = new THREE.TextureLoader().load("images/Wook049_4K-JPG_Color.jpg");
     textura.wrapS = THREE.RepeatWrapping;
     textura.wrapT = THREE.RepeatWrapping;
     textura.repeat.set(2, 1);
