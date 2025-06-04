@@ -156,6 +156,7 @@ function ajustarInstrumento(objeto, nombre) {
 
     const scale = {
         clave: 5,
+        clarinete: 5,
         bateria: 3.5,
         flauta: 0.2,
         marimba: 2.5,
@@ -171,6 +172,9 @@ function ajustarInstrumento(objeto, nombre) {
     } else if (nombre === "clarinete" || nombre === "flauta") {
         instrumentoActual.rotation.set(0, 0, 0);
         instrumentoActual.rotation.x = Math.PI / 2;
+        if (nombre === "clarinete") {
+            instrumentoActual.rotation.y = Math.PI;
+        }
     } else if (nombre === "trombon") {
         instrumentoActual.rotation.x = Math.PI / 2;
         instrumentoActual.rotation.y = Math.PI / 2;
