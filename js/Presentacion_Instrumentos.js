@@ -13,6 +13,21 @@ let sonidoActual = null;
 let modelosCache = {};
 let loadingMessage = null;
 const gui = new GUI({width: 300});
+const nombresLegibles = {
+    bateria: "Batería",
+    clarinete: "Clarinete",
+    flauta: "Flauta",
+    guitarra_acustica: "Guitarra acústica",
+    guitarra_electrica: "Guitarra eléctrica",
+    marimba: "Marimba",
+    piano: "Piano",
+    saxo: "Saxo",
+    trombon: "Trombón",
+    trompa: "Trompa",
+    trompeta: "Trompeta",
+    violin: "Violín",
+    clave: "Clave"
+};
 
 init();
 loadScene();
@@ -136,7 +151,7 @@ function cargarInstrumento(nombre) {
 function crearMensajeCarga(nombre) {
     loadingMessage = document.createElement("div");
 
-    loadingMessage.textContent = `Cargando... ${nombre}`;
+    loadingMessage.textContent = `Cargando... ${nombresLegibles[nombre]}`;
     loadingMessage.style.position = "absolute";
     loadingMessage.style.top = "20%";
     loadingMessage.style.left = "50%";
@@ -275,14 +290,6 @@ function render() {
 }
 
 function crearListaInstrumentos() {
-    function formatearNombre(nombre) {
-        return nombre
-            .replace(/_/g, " ")
-            .replace(/\b\w/g, function (letra) {
-                return letra.toUpperCase();
-            });
-    }
-
     const lista = document.createElement("ul");
     lista.style.position = "absolute";
     lista.style.left = "20px";
@@ -294,7 +301,7 @@ function crearListaInstrumentos() {
 
     listaInstrumentos.forEach((nombre) => {
         const item = document.createElement("li");
-        item.textContent = nombre;
+        item.textContent = nombresLegibles[nombre];
         item.style.cursor = "pointer";
         item.style.marginBottom = "5px";
         item.addEventListener("click", () => cargarInstrumento(nombre));
