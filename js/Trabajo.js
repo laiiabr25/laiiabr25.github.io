@@ -230,6 +230,14 @@ function render() {
 }
 
 function crearListaInstrumentos() {
+    function formatearNombre(nombre) {
+        return nombre
+            .replace(/_/g, " ")
+            .replace(/\b\w/g, function (letra) {
+                return letra.toUpperCase();
+            });
+    }
+
     const lista = document.createElement("ul");
     lista.style.position = "absolute";
     lista.style.right = "20px";
@@ -241,7 +249,7 @@ function crearListaInstrumentos() {
 
     listaInstrumentos.forEach((nombre) => {
         const item = document.createElement("li");
-        item.textContent = nombre;
+        item.textContent = formatearNombre(nombre);
         item.style.cursor = "pointer";
         item.style.marginBottom = "5px";
         item.addEventListener("click", () => cargarInstrumento(nombre));

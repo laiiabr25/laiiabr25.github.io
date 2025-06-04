@@ -78,13 +78,7 @@ function setupGUI() {
     effectController = {
         autoRotate: false,
         rotationSpeed: 0.01,
-        sonido: false,
-        escala: instrumentoActual.scale.x,
-        resetScale: () => {
-            effectController.escala = instrumentoActual.scale.escalaOriginal;
-            instrumentoActual.scale.set(1, 1, 1);
-            gui.updateDisplay();
-        }
+        sonido: false
     };
 
     gui.title("Controles del instrumento");
@@ -102,7 +96,7 @@ function setupGUI() {
     }
     gui.add(effectController, "sonido").name("Sonido").onChange((valor) => {
         if (sonidoActual) {
-            if (value) {
+            if (valor) {
                 sonidoActual.play();
             } else {
                 sonidoActual.pause();
@@ -110,13 +104,6 @@ function setupGUI() {
             }
         }
     });
-    gui.add(effectController, "escala", 0.1, 3.0, 0.1).name("Escala").onChange((valor) => {
-        instrumentoActual.scale.set(value, value, value);
-    })
-    gui.add(effectController, "resetScale").name("Resetear")
-    gui.domElement.style.position = "fixed";
-    gui.domElement.style.top = "20px";
-    gui.domElement.style.right = "20px";
 }
 
 function cargarInstrumento(nombre) {
@@ -288,6 +275,14 @@ function render() {
 }
 
 function crearListaInstrumentos() {
+    function formatearNombre(nombre) {
+        return nombre
+            .replace(/_/g, " ")
+            .replace(/\b\w/g, function (letra) {
+                return letra.toUpperCase();
+            });
+    }
+
     const lista = document.createElement("ul");
     lista.style.position = "absolute";
     lista.style.left = "20px";
