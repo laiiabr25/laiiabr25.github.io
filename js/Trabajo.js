@@ -42,6 +42,7 @@ function loadScene() {
     const material = new THREE.MeshStandardMaterial({ map: textura });
 
     const luzAmbiente = new THREE.AmbientLight(0x404040, 0.5);
+    //luzAmbiente.intensity = 0.8;
     scene.add(luzAmbiente);
 
     const luzDireccional = new THREE.DirectionalLight(0xffffff, 1);
@@ -49,6 +50,7 @@ function loadScene() {
     luzDireccional.castShadow = true;
     luzDireccional.shadow.mapSize.width = 1024;
     luzDireccional.shadow.mapSize.height = 1204;
+    //luzDireccional.intensity = 0.8;
     scene.add(luzDireccional);
 
     const tarima = new THREE.Mesh(new THREE.BoxGeometry(10, 0.5, 10), material);
@@ -63,8 +65,6 @@ function cargarInstrumento(nombre) {
         return;
     }
 
-    const loader = new GLTFLoader();
-
     const loadingMessage = document.createElement("div");
     loadingMessage.textContent = `Cargando... ${nombre}`;
     loadingMessage.style.position = "absolute";
@@ -78,7 +78,14 @@ function cargarInstrumento(nombre) {
     
     document.body.appendChild(loadingMessage);
 
-    loader.load(`models/instrumentos/${nombre}/scene.gltf`, function(gltf) {
+    const rutaBase = `models/instrumentos/${nombre}/`;
+    const loadingManager = new THREE.LoadingManager();
+    loadingManager.setURLModifier((url) => {
+        return rutaBase + url;
+    });
+
+    const loader = new GLTFLoader(loadingManager)
+    loader.load(rutaBase + "scene.gltf", function(gltf) {
         if (instrumentoActual) {
             scene.remove(instrumentoActual)
         }
@@ -89,9 +96,12 @@ function cargarInstrumento(nombre) {
                 node.receiveShadow = true;
                 if (nombre === "clave") {
                    node.material = new THREE.MeshStandardMaterial({ color: "black", wireframe: true, linewidth: 3, side: THREE.DoubleSide });
+                } else {
+                    if (node.material && node.material.isMeshStandardMaterial) {
+                        node.material.metalness = 0.4;
+                        node.material.roughness = 0.5;
+                    }
                 }
-                node.material.metalness = 0.5;
-                node.material.roughness = 0.3;
             }
         });
         ajustarInstrumento(instrumentoActual, nombre);
@@ -162,9 +172,7 @@ function resetearInstrumento() {
 }
 
 function update() {
-    if (instrumentoActual) {
-        instrumentoActual.rotation.y += 0.005;
-    }
+    
 }
 
 function render() {
