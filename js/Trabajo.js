@@ -123,9 +123,9 @@ function cargarInstrumento(nombre) {
                 if (nombre === "clave") {
                     node.material = new THREE.MeshStandardMaterial({color: "black", wireframe: true, side: THREE.DoubleSide});
                 } else {
-                    if (!node.material.map) {
+                    /*if (!node.material.map) {
                         node.material = new THREE.MeshStandardMaterial({color: 0xaaaaaa, metalness: 0.4, roughness: 0.5});
-                    }
+                    }*/
                     node.material.envMap = scene.environment;
                     node.material.envMapIntensity = 1;
                     node.material.needsUpdate = true;
