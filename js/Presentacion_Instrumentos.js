@@ -137,7 +137,7 @@ function cargarInstrumento(nombre) {
     loader.setPath(rutaBase);
     loader.setResourcePath(rutaBase);
 
-    const loadingMessage = crearMensajeCarga(nombre);
+    loadingMessage = crearMensajeCarga(nombre);
 
     loader.load("scene.gltf", function(gltf) {
         modelosCache[nombre] = gltf.scene.clone(true);
@@ -199,7 +199,7 @@ function usarInstrumento(objeto, nombre) {
 
     if (sonidoActual) {
         sonidoActual.pause();
-        sonido.currentTime = 0;
+        sonidoActual.currentTime = 0;
         sonidoActual = null;
     }
     if (nombre !== "clave") {
