@@ -11,7 +11,6 @@ let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica",
 let rotadorInstrumento = new THREE.Object3D();
 let sonidoActual = null;
 let modelosCache = {};
-let loadingMessage = null;
 const gui = new GUI({width: 300});
 const nombresLegibles = {
     bateria: "Batería",
@@ -137,32 +136,12 @@ function cargarInstrumento(nombre) {
     loader.setPath(rutaBase);
     loader.setResourcePath(rutaBase);
 
-    loadingMessage = crearMensajeCarga(nombre);
-
     loader.load("scene.gltf", function(gltf) {
         modelosCache[nombre] = gltf.scene.clone(true);
         usarInstrumento(modelosCache[nombre], nombre);
     }, undefined, function (error) {
         console.error("Error al cargar:", error);
-        document.body.appendChild(loadingMessage);
-        loadingMessage = null;
     });
-}
-
-function crearMensajeCarga(nombre) {
-    loadingMessage = document.createElement("div");
-
-    loadingMessage.textContent = `Cargando... ${nombresLegibles[nombre]}`;
-    loadingMessage.style.position = "absolute";
-    loadingMessage.style.top = "20%";
-    loadingMessage.style.left = "50%";
-    loadingMessage.style.transform = "translate(-50%, -50%)";
-    loadingMessage.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-    loadingMessage.style.color = "white";
-    loadingMessage.style.padding = "10px";
-    loadingMessage.style.borderRadius = "5px";
-
-    document.body.appendChild(loadingMessage);
 }
 
 function usarInstrumento(objeto, nombre) {
@@ -212,11 +191,6 @@ function usarInstrumento(objeto, nombre) {
     }
 
     instrumentoSeleccionado = nombre;
-
-    if (loadingMessage) {
-        document.body.appendChild(loadingMessage);
-        loadingMessage = null;
-    }
 }
 
 function ajustarInstrumento(objeto, nombre) {
