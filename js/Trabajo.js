@@ -171,9 +171,6 @@ function ajustarInstrumento(objeto, nombre) {
     } else if (nombre === "clarinete" || nombre === "flauta") {
         instrumentoActual.rotation.set(0, 0, 0);
         instrumentoActual.rotation.x = Math.PI / 2;
-        if (nombre === "clarinete") {
-            instrumentoActual.rotation.y = Math.PI;
-        }
     } else if (nombre === "trombon") {
         instrumentoActual.rotation.x = Math.PI / 2;
         instrumentoActual.rotation.y = Math.PI / 2;
