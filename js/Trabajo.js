@@ -135,12 +135,7 @@ function usarInstrumento(objeto, nombre) {
             node.castShadow = true;
             node.receiveShadow = true;
             if (nombre === "clave") {
-                //node.material = new THREE.MeshStandardMaterial({color: "black", wireframe: true, side: THREE.DoubleSide});
-                const edges = new THREE.EdgesGeometry(node.geometry);
-                const lineMaterial = new THREE.LineBasicMaterial({color: 0x000000, linewidth: 2 });
-                const wireframe = new THREE.LineSegments(edges, lineMaterial);
-                node.visible = false;
-                node.add(wireframe);
+                node.material = new THREE.MeshStandardMaterial({color: "black", wireframe: true, side: THREE.DoubleSide});
             } else {
                 node.material.envMap = scene.environment;
                 node.material.envMapIntensity = 1;
