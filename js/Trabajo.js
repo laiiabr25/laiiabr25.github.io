@@ -156,7 +156,7 @@ function ajustarInstrumento(objeto, nombre) {
 
     const scale = {
         clave: 5,
-        clarinete: 5,
+        clarinete: 0.5,
         bateria: 3.5,
         flauta: 0.2,
         marimba: 2.5,
