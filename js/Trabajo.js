@@ -69,7 +69,7 @@ function loadScene() {
     scene.add(luzDireccional);
 
     const tarima = new THREE.Mesh(new THREE.BoxGeometry(10, 0.5, 10), material);
-    tarima.position.y = -0.5;
+    tarima.position.y = -0.25;
     tarima.receiveShadow = true;
     scene.add(tarima);
 }
