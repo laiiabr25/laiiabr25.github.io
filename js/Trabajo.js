@@ -45,7 +45,7 @@ function loadScene() {
     const material = new THREE.MeshStandardMaterial({ map: textura });
 
     const luzAmbiente = new THREE.AmbientLight(0x404040, 0.5);
-    //luzAmbiente.intensity = 0.8;
+    luzAmbiente.intensity = 0.8;
     scene.add(luzAmbiente);
 
     const luzDireccional = new THREE.DirectionalLight(0xffffff, 1);
@@ -53,7 +53,7 @@ function loadScene() {
     luzDireccional.castShadow = true;
     luzDireccional.shadow.mapSize.width = 1024;
     luzDireccional.shadow.mapSize.height = 1204;
-    //luzDireccional.intensity = 0.8;
+    luzDireccional.intensity = 0.8;
     scene.add(luzDireccional);
 
     const tarima = new THREE.Mesh(new THREE.BoxGeometry(10, 0.5, 10), material);
