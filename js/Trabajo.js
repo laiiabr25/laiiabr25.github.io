@@ -6,6 +6,7 @@ let renderer, scene, camera, cameraControls;
 let instrumentoActual =  null;
 let instrumentoSeleccionado = null;
 let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica", "marimba", "piano", "saxo", "trombon", "trompa", "trompeta", "violin" ];
+let rotadorInstrumento = new THREE.Object3D();
 
 init();
 loadScene();
@@ -33,6 +34,8 @@ function init() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
     });
+
+    scene.add(rotadorInstrumento);
 
     crearListaInstrumentos();
 }
@@ -65,6 +68,10 @@ function cargarInstrumento(nombre) {
         return;
     }
 
+    const rutaBase = `models/instrumentos/${nombre}/`;
+    const loader = new GLTFLoader();
+    loader.setPath(rutaBase);
+
     const loadingMessage = document.createElement("div");
     loadingMessage.textContent = `Cargando... ${nombre}`;
     loadingMessage.style.position = "absolute";
@@ -78,16 +85,9 @@ function cargarInstrumento(nombre) {
     
     document.body.appendChild(loadingMessage);
 
-    const rutaBase = `models/instrumentos/${nombre}/`;
-    const loadingManager = new THREE.LoadingManager();
-    loadingManager.setURLModifier((url) => {
-        return rutaBase + url;
-    });
-
-    const loader = new GLTFLoader(loadingManager)
     loader.load(rutaBase + "scene.gltf", function(gltf) {
         if (instrumentoActual) {
-            scene.remove(instrumentoActual)
+            rotadorInstrumento.remove(instrumentoActual)
         }
         instrumentoActual = gltf.scene;
         instrumentoActual.traverse(node => {
@@ -105,7 +105,7 @@ function cargarInstrumento(nombre) {
             }
         });
         ajustarInstrumento(instrumentoActual, nombre);
-        scene.add(instrumentoActual);
+        rotadorInstrumento.add(instrumentoActual);
         instrumentoSeleccionado = nombre;
         document.body.removeChild(loadingMessage);
     }, undefined, function(error) {
@@ -172,7 +172,7 @@ function resetearInstrumento() {
 }
 
 function update() {
-    
+    rotadorInstrumento.rotation.y += 0.005;
 }
 
 function render() {
