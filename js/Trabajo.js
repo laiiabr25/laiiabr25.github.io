@@ -52,10 +52,10 @@ function loadScene() {
     const textura = new THREE.TextureLoader().load("images/wood512.jpg");
     const material = new THREE.MeshStandardMaterial({ map: textura });
 
-    const luzAmbiente = new THREE.AmbientLight(0x404040, 1.2);
+    const luzAmbiente = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(luzAmbiente);
 
-    const luzDireccional = new THREE.DirectionalLight(0xffffff, 1);
+    const luzDireccional = new THREE.DirectionalLight(0xffffff, 0.6);
     luzDireccional.position.set(5, 10, 7.5);
     luzDireccional.castShadow = true;
     luzDireccional.shadow.mapSize.set(2048, 2048);
@@ -66,6 +66,10 @@ function loadScene() {
     tarima.position.y = -0.25;
     tarima.receiveShadow = true;
     scene.add(tarima);
+
+    const pared = new THREE.Mesh(new THREE.PlaneGeometry(10, 6), material);
+    pared.position.set(0, 2.5, -5);
+    scene.add(pared);
 
     const paredes = [
         new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load("images/posx.jpg"), side: THREE.BackSide}),
