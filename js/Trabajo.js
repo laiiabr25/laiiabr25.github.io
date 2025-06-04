@@ -52,7 +52,7 @@ function loadScene() {
     const textura = new THREE.TextureLoader().load("images/wood512.jpg");
     const material = new THREE.MeshStandardMaterial({ map: textura });
 
-    const luzAmbiente = new THREE.AmbientLight(0xffffff, 1.2);
+    const luzAmbiente = new THREE.AmbientLight(0x404040, 1.2);
     scene.add(luzAmbiente);
 
     const luzDireccional = new THREE.DirectionalLight(0xffffff, 1);
@@ -88,6 +88,7 @@ function cargarInstrumento(nombre) {
     const rutaBase = `models/instrumentos/${nombre}/`;
     const loader = new GLTFLoader();
     loader.setPath(rutaBase);
+    loader.setResourcePath(rutaBase);
 
     const loadingMessage = document.createElement("div");
     loadingMessage.textContent = `Cargando... ${nombre}`;
