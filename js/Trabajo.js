@@ -10,6 +10,7 @@ let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica",
 let rotadorInstrumento = new THREE.Object3D();
 let sonidoActual = null;
 let modelosCache = {};
+let loadingMessage = null;
 
 init();
 loadScene();
@@ -50,7 +51,11 @@ function init() {
 }
 
 function loadScene() {
-    const textura = new THREE.TextureLoader().load("images/wood512.jpg");
+    const textura = new THREE.TextureLoader().load("images/Concrete046_4K-JPG_Color.jpg");
+    /*textura.wrapS = THREE.RepeatWrapping;
+    textura.wrapT = THREE.RepeatWrapping;
+    textura.repeat.set(2, 1);*/
+
     const material = new THREE.MeshStandardMaterial({ map: textura });
 
     const luzAmbiente = new THREE.AmbientLight(0x404040, 0.8);
@@ -64,13 +69,9 @@ function loadScene() {
     scene.add(luzDireccional);
 
     const tarima = new THREE.Mesh(new THREE.BoxGeometry(10, 0.5, 10), material);
-    tarima.position.y = -0.25;
+    tarima.position.y = -0.5;
     tarima.receiveShadow = true;
     scene.add(tarima);
-
-    /*const pared = new THREE.Mesh(new THREE.PlaneGeometry(10, 8), material);
-    pared.position.set(0, 2.5, -5);
-    scene.add(pared);*/
 }
 
 function cargarInstrumento(nombre) {
@@ -94,7 +95,6 @@ function cargarInstrumento(nombre) {
     loader.load("scene.gltf", function(gltf) {
         modelosCache[nombre] = gltf.scene.clone(true);
         usarInstrumento(modelosCache[nombre], nombre);
-        document.body.removeChild(loadingMessage);
     }, undefined, function (error) {
         console.error("Error al cargar:", error);
         document.body.removeChild(loadingMessage);
@@ -102,7 +102,8 @@ function cargarInstrumento(nombre) {
 }
 
 function crearMensajeCarga(nombre) {
-    const loadingMessage = document.createElement("div");
+    loadingMessage = document.createElement("div");
+
     loadingMessage.textContent = `Cargando... ${nombre}`;
     loadingMessage.style.position = "absolute";
     loadingMessage.style.top = "20%";
@@ -159,7 +160,9 @@ function usarInstrumento(objeto, nombre) {
     }
     instrumentoSeleccionado = nombre;
 
-    document.body.removeChild(loadingMessage);
+    if (loadingMessage) {
+        document.body.removeChild(loadingMessage);
+    }
 }
 
 function ajustarInstrumento(objeto, nombre) {
