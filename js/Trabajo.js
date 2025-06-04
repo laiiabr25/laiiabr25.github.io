@@ -162,7 +162,9 @@ function resetearInstrumento() {
 }
 
 function update() {
-    
+    if (instrumentoActual) {
+        instrumentoActual.rotation.y += 0.005;
+    }
 }
 
 function render() {
