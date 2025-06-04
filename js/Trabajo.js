@@ -52,9 +52,6 @@ function init() {
 
 function loadScene() {
     const textura = new THREE.TextureLoader().load("images/Wood049_4K-JPG_Color.jpg");
-    textura.wrapS = THREE.RepeatWrapping;
-    textura.wrapT = THREE.RepeatWrapping;
-    textura.repeat.set(2, 1);
 
     const material = new THREE.MeshStandardMaterial({ map: textura });
 
