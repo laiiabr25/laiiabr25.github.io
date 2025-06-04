@@ -144,7 +144,7 @@ function cargarInstrumento(nombre) {
         usarInstrumento(modelosCache[nombre], nombre);
     }, undefined, function (error) {
         console.error("Error al cargar:", error);
-        document.body.removeChild(loadingMessage);
+        loadingMessage = null;
     });
 }
 
@@ -213,7 +213,7 @@ function usarInstrumento(objeto, nombre) {
     instrumentoSeleccionado = nombre;
 
     if (loadingMessage) {
-        document.body.removeChild(loadingMessage);
+        loadingMessage = null;
     }
 }
 
