@@ -51,7 +51,7 @@ function init() {
 }
 
 function loadScene() {
-    const textura = new THREE.TextureLoader().load("images/Wook049_4K-JPG_Color.jpg");
+    const textura = new THREE.TextureLoader().load("images/Wood049_4K-JPG_Color.jpg");
     textura.wrapS = THREE.RepeatWrapping;
     textura.wrapT = THREE.RepeatWrapping;
     textura.repeat.set(2, 1);
@@ -68,7 +68,7 @@ function loadScene() {
     luzDireccional.shadow.bias = -0.0001;
     scene.add(luzDireccional);
 
-    const tarima = new THREE.Mesh(new THREE.BoxGeometry(10, 5, 10), material);
+    const tarima = new THREE.Mesh(new THREE.BoxGeometry(10, 0.5, 10), material);
     tarima.position.y = -0.5;
     tarima.receiveShadow = true;
     scene.add(tarima);
