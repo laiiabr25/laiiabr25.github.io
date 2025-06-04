@@ -7,6 +7,7 @@ let instrumentoActual =  null;
 let instrumentoSeleccionado = null;
 let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica", "marimba", "piano", "saxo", "trombon", "trompa", "trompeta", "violin" ];
 let rotadorInstrumento = new THREE.Object3D();
+let sonidoActual = null;
 
 init();
 loadScene();
@@ -104,6 +105,14 @@ function cargarInstrumento(nombre) {
         });
         ajustarInstrumento(instrumentoActual, nombre);
         rotadorInstrumento.add(instrumentoActual);
+        if (sonidoActual) {
+            sonidoActual.pause();
+            sonidoActual.currentTime = 0;
+        }
+        if (instrumentoActual != "clave") {
+            sonidoActual = new Audio(`sounds/${nombre}.mp3`);
+            sonidoActual.play();
+        }
         instrumentoSeleccionado = nombre;
         document.body.removeChild(loadingMessage);
     }, undefined, function(error) {
