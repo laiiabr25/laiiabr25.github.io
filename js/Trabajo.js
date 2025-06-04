@@ -24,6 +24,13 @@ function init() {
     scene = new THREE.Scene();
     scene.background = new THREE.TextureLoader().load("images/musical_background.jpg");
 
+    const entorno = new THREE.CubeTextureLoader().load([
+        "images/posx.jpg", "images/negx.jpg",
+        "images/posy.jpg", "images/negy.jpg",
+        "images/posz.jpg", "images/ngez.jpg"
+    ]);
+    scene.environment = entorno;
+
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0.5, 2, 10);
     cameraControls = new OrbitControls(camera, renderer.domElement);
@@ -45,20 +52,31 @@ function loadScene() {
     const textura = new THREE.TextureLoader().load("images/wood512.jpg");
     const material = new THREE.MeshStandardMaterial({ map: textura });
 
-    const luzAmbiente = new THREE.AmbientLight(0x404040, 0.5);
+    const luzAmbiente = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(luzAmbiente);
 
     const luzDireccional = new THREE.DirectionalLight(0xffffff, 1);
     luzDireccional.position.set(5, 10, 7.5);
     luzDireccional.castShadow = true;
-    luzDireccional.shadow.mapSize.width = 1024;
-    luzDireccional.shadow.mapSize.height = 1204;
+    luzDireccional.shadow.mapSize.set(2048, 2048);
+    luzDireccional.shadow.bias = -0.0001;
     scene.add(luzDireccional);
 
     const tarima = new THREE.Mesh(new THREE.BoxGeometry(10, 0.5, 10), material);
     tarima.position.y = -0.25;
     tarima.receiveShadow = true;
     scene.add(tarima);
+
+    const paredes = [
+        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load("images/posx.jpg"), side: THREE.BackSide}),
+        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load("images/negx.jpg"), side: THREE.BackSide}),
+        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load("images/posy.jpg"), side: THREE.BackSide}),
+        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load("images/negy.jpg"), side: THREE.BackSide}),
+        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load("images/posz.jpg"), side: THREE.BackSide}),
+        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load("images/negz.jpg"), side: THREE.BackSide})
+    ];
+    const habitacion = new THREE.Mesh(new THREE.BoxGeometry(50, 50, 50), paredes);
+    scene.add(habitacion);
 }
 
 function cargarInstrumento(nombre) {
@@ -81,11 +99,20 @@ function cargarInstrumento(nombre) {
     loadingMessage.style.color = "white";
     loadingMessage.style.padding = "10px";
     loadingMessage.style.borderRadius = "5px";
-    
     document.body.appendChild(loadingMessage);
 
     loader.load("scene.gltf", function(gltf) {
         if (instrumentoActual) {
+            instrumentoActual.traverse(child => {
+                if (child.isMesh) {
+                    child.geometry.dispose();
+                    if (Array.isArray(child.material)) {
+                        child.material.forEach(m => m.dispose());
+                    } else {
+                        child.material.dispose();
+                    }
+                }
+            });
             rotadorInstrumento.remove(instrumentoActual)
         }
         instrumentoActual = gltf.scene;
@@ -94,12 +121,14 @@ function cargarInstrumento(nombre) {
                 node.castShadow = true;
                 node.receiveShadow = true;
                 if (nombre === "clave") {
-                   node.material = new THREE.MeshStandardMaterial({ color: "black", wireframe: true, linewidth: 3, side: THREE.DoubleSide });
+                    node.material = new THREE.MeshStandardMaterial({color: "black", wireframe: true, side: THREE.DoubleSide});
                 } else {
-                    if (node.material && node.material.isMeshStandardMaterial) {
-                        node.material.metalness = 0.4;
-                        node.material.roughness = 0.5;
+                    if (!node.material.map) {
+                        node.material = new THREE.MeshStandardMaterial({color: 0xaaaaaa, metalness: 0.4, roughness: 0.5});
                     }
+                    node.material.envMap = scene.environment;
+                    node.material.envMapIntensity = 1;
+                    node.material.needsUpdate = true;
                 }
             }
         });
@@ -109,7 +138,7 @@ function cargarInstrumento(nombre) {
             sonidoActual.pause();
             sonidoActual.currentTime = 0;
         }
-        if (instrumentoActual != "clave") {
+        if (nombre != "clave") {
             sonidoActual = new Audio(`sounds/${nombre}.mp3`);
             sonidoActual.play();
         }
@@ -125,7 +154,34 @@ function ajustarInstrumento(objeto, nombre) {
     const box = new THREE.Box3().setFromObject(objeto);
     const size = box.getSize(new THREE.Vector3());
 
-    if (nombre === "clave") {
+    const scale = {
+        clave: 5,
+        bateria: 3.5,
+        flauta: 0.2,
+        marimba: 2.5,
+        trombon: 0.7,
+        trompa: 2.5,
+        trompeta: 1.5,
+        violin: 0.5
+    } [nombre] || 4;
+    instrumentoActual.scale.set(scale / size.y, scale / size.y, scale / size.y);
+
+    if (nombre === "bateria") {
+        instrumentoActual.rotation.y = Math.PI;
+    } else if (nombre === "clarinete" || nombre === "flauta") {
+        instrumentoActual.rotation.set(0, 0, 0);
+        instrumentoActual.rotation.x = Math.PI / 2;
+        if (nombre === "clarinete") {
+            instrumentoActual.rotation.y = Math.PI;
+        }
+    } else if (nombre === "trombon") {
+        instrumentoActual.rotation.x = Math.PI / 2;
+        instrumentoActual.rotation.y = Math.PI / 2;
+    } else if (nombre === "violin") {
+        instrumentoActual.rotation.set(Math.PI / 2, 0, 0);
+    }
+
+    /*if (nombre === "clave") {
         instrumentoActual.scale.set(5 / size.y, 5 / size.y, 5 / size.y);
     }
     else if (nombre === "bateria") {
@@ -163,7 +219,7 @@ function ajustarInstrumento(objeto, nombre) {
     }
     else {
         instrumentoActual.scale.set(4 / size.y, 4 / size.y, 4 / size.y);
-    }
+    }*/
 
     const boxScaled = new THREE.Box3().setFromObject(instrumentoActual);
     const center = boxScaled.getCenter(new THREE.Vector3());
@@ -172,7 +228,19 @@ function ajustarInstrumento(objeto, nombre) {
 }
 
 function resetearInstrumento() {
-    scene.remove(instrumentoActual);
+    if (instrumentoActual) {
+        instrumentoActual.traverse(child => {
+            if (child.isMesh) {
+                child.geometry.dispose();
+                if (Array.isArray(child.material)) {
+                    child.material.forEach(m => m.dispose());
+                } else {
+                    child.material.dispose();
+                }
+            }
+        });
+        rotadorInstrumento.remove(instrumentoActual);
+    }
     instrumentoActual = null;
     instrumentoSeleccionado = null;
     cargarInstrumento("clave");
