@@ -1,6 +1,7 @@
 import * as THREE from "../lib/three.module.js";
 import {GLTFLoader} from "../lib/GLTFLoader.module.js";
 import {OrbitControls} from "../lib/OrbitControls.module.js";
+import {RGBELoader} from "../lib/RGBELoader.module.js"
 
 let renderer, scene, camera, cameraControls;
 let instrumentoActual =  null;
@@ -23,14 +24,13 @@ function init() {
     document.getElementById('container').appendChild(renderer.domElement);
 
     scene = new THREE.Scene();
-    scene.background = new THREE.TextureLoader().load("images/musical_background.jpg");
-
-    const entorno = new THREE.CubeTextureLoader().load([
-        "images/posx.jpg", "images/negx.jpg",
-        "images/posy.jpg", "images/negy.jpg",
-        "images/posz.jpg", "images/ngez.jpg"
-    ]);
-    scene.environment = entorno;
+    new RGBELoader()
+        .setPath("images/escenario/")
+        .load("mirrored_hall_4k.hdr", function (hdrTexture) {
+            hdrTexture.mapping = THREE.EquirectangularReflectionMapping;
+            scene.environment = hdrTexture;
+            scene.background = hdrTexture;
+        });
 
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0.5, 2, 10);
@@ -68,20 +68,9 @@ function loadScene() {
     tarima.receiveShadow = true;
     scene.add(tarima);
 
-    const pared = new THREE.Mesh(new THREE.PlaneGeometry(10, 8), material);
+    /*const pared = new THREE.Mesh(new THREE.PlaneGeometry(10, 8), material);
     pared.position.set(0, 2.5, -5);
-    scene.add(pared);
-
-    const paredes = [
-        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load("images/posx.jpg"), side: THREE.BackSide}),
-        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load("images/negx.jpg"), side: THREE.BackSide}),
-        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load("images/posy.jpg"), side: THREE.BackSide}),
-        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load("images/negy.jpg"), side: THREE.BackSide}),
-        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load("images/posz.jpg"), side: THREE.BackSide}),
-        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load("images/negz.jpg"), side: THREE.BackSide})
-    ];
-    const habitacion = new THREE.Mesh(new THREE.BoxGeometry(50, 50, 50), paredes);
-    scene.add(habitacion);
+    scene.add(pared);*/
 }
 
 function cargarInstrumento(nombre) {
@@ -110,51 +99,6 @@ function cargarInstrumento(nombre) {
         console.error("Error al cargar:", error);
         document.body.removeChild(loadingMessage);
     });
-
-    /*loader.load("scene.gltf", function(gltf) {
-        if (instrumentoActual) {
-            instrumentoActual.traverse(child => {
-                if (child.isMesh) {
-                    child.geometry.dispose();
-                    if (Array.isArray(child.material)) {
-                        child.material.forEach(m => m.dispose());
-                    } else {
-                        child.material.dispose();
-                    }
-                }
-            });
-            rotadorInstrumento.remove(instrumentoActual)
-        }
-        instrumentoActual = gltf.scene;
-        instrumentoActual.traverse(node => {
-            if (node.isMesh) {
-                node.castShadow = true;
-                node.receiveShadow = true;
-                if (nombre === "clave") {
-                    node.material = new THREE.MeshStandardMaterial({color: "black", wireframe: true, side: THREE.DoubleSide});
-                } else {
-                    node.material.envMap = scene.environment;
-                    node.material.envMapIntensity = 1;
-                    node.material.needsUpdate = true;
-                }
-            }
-        });
-        ajustarInstrumento(instrumentoActual, nombre);
-        rotadorInstrumento.add(instrumentoActual);
-        if (sonidoActual) {
-            sonidoActual.pause();
-            sonidoActual.currentTime = 0;
-        }
-        if (nombre != "clave") {
-            sonidoActual = new Audio(`sounds/${nombre}.mp3`);
-            sonidoActual.play();
-        }
-        instrumentoSeleccionado = nombre;
-        document.body.removeChild(loadingMessage);
-    }, undefined, function(error) {
-        console.error("Error al cargar el modelo:", error);
-        document.body.removeChild(loadingMessage);
-    });*/
 }
 
 function crearMensajeCarga(nombre) {
@@ -214,6 +158,8 @@ function usarInstrumento(objeto, nombre) {
         sonidoActual.play();
     }
     instrumentoSeleccionado = nombre;
+
+    document.body.removeChild(loadingMessage);
 }
 
 function ajustarInstrumento(objeto, nombre) {
