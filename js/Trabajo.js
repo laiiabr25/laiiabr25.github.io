@@ -9,7 +9,6 @@ let listaInstrumentos = [ "bateria", "clarinete", "flauta", "guitarra_acustica",
 
 init();
 loadScene();
-crearLuces();
 cargarInstrumento("clave");
 render();
 
@@ -36,51 +35,6 @@ function init() {
     });
 
     crearListaInstrumentos();
-    crearLuces();
-}
-
-function crearLuces() {
-    const ambiental = new THREE.AmbientLight(0x666666);
-    scene.add(ambiental);
-
-    const direccional = new THREE.DirectionalLight(0xFFFFFF, 0.2);
-    direccional.position.set(-2, 4, -2);
-    scene.add(direccional);
-
-    const puntual = new THREE.PointLight(0xFFFFFF, 0.8);
-    puntual.position.set(0, 4, 2);
-    puntual.decay = 2;
-    scene.add(puntual);
-
-    const focal = new THREE.SpotLight(0xFFFFFF, 0.4);
-    focal.position.set(0, 6, 3);
-    focal.angle = Math.PI / 7;
-    focal.penumbra = 0.4;
-    focal.target.position.set(0, 1, 0);
-    scene.add(focal);
-
-    const luzSuperior = new THREE.PointLight(0xFFFFFF, 0.4);
-    luzSuperior.position.set(0, 6, 0);
-    luzSuperior.decay = 2;
-    scene.add(luzSuperior);
-
-    function actualizarFoco() {
-        if (instrumentoActual) {
-            const box = new THREE.Box3().setFromObject(instrumentoActual);
-            const center = box.getCenter(new THREE.Vector3());
-            puntual.position.set(center.x, center.y + 3, center.z);
-            focal.position.set(center.x, center.y + 5, center.z + 2);
-            focal.target.position.copy(center);
-            focal.target.updateMatrixWorld();
-            luzSuperior.position.set(center.x, center.y + 6, center.z);
-        }
-    }
-
-    const originalCargarInstrumento = cargarInstrumento;
-    cargarInstrumento = function (nombre) {
-        originalCargarInstrumento.call(this, nombre);
-        setTimeout(actualizarFoco, 500);
-    }
 }
 
 function loadScene() {
