@@ -36,28 +36,33 @@ function loadScene() {
 
     const loader = new GLTFLoader();
     const spacing = 4;
-    let fila = 0;
-    let columna = 0;
     const maxColumnas = 4;
 
     instrumentos.forEach((nombre, index) => {
         loader.load(`../models/instrumentos/${nombre}/scene.gltf`, gltf => {
             const instrumento = gltf.scene;
             
-            // Centrado y escalado uniforme
+            // Asegurar que tenga bounding box válida
+            instrumento.updateWorldMatrix(true, true);
             const bbox = new THREE.Box3().setFromObject(instrumento);
             const size = new THREE.Vector3();
             bbox.getSize(size);
+
+            if (size.y === 0) {
+                console.warn(`Instrumento ${nombre} tiene tamaño 0. Se omite.`);
+                return;
+            }
+
             const center = new THREE.Vector3();
             bbox.getCenter(center);
-            instrumento.position.sub(center); // Centrar
+            instrumento.position.sub(center); // Centrar al origen
 
-            const scaleFactor = 2 / size.y; // Alto normalizado a 2 unidades
+            const scaleFactor = 2 / size.y; // Normalizar altura
             instrumento.scale.setScalar(scaleFactor);
 
             // Posición en cuadrícula
-            columna = index % maxColumnas;
-            fila = Math.floor(index / maxColumnas);
+            const columna = index % maxColumnas;
+            const fila = Math.floor(index / maxColumnas);
             const offsetX = (columna - (maxColumnas - 1) / 2) * spacing;
             const offsetZ = fila * -spacing;
 
@@ -66,6 +71,11 @@ function loadScene() {
             wrapper.position.set(offsetX, 0, offsetZ);
 
             escenario.add(wrapper);
+            console.log(`Instrumento ${nombre} -> altura: ${size.y.toFixed(2)} unidades`);
+        },
+        undefined,
+        error => {
+            console.error(`Error cargando ${nombre}:`, error);
         });
     });
 }
